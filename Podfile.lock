@@ -1,0 +1,35 @@
+PODS:
+  - Masonry (1.0.0)
+  - MMDrawerController (0.5.7):
+    - MMDrawerController/Core (= 0.5.7)
+    - MMDrawerController/MMDrawerBarButtonItem (= 0.5.7)
+    - MMDrawerController/MMDrawerVisualStates (= 0.5.7)
+    - MMDrawerController/Subclass (= 0.5.7)
+  - MMDrawerController/Core (0.5.7)
+  - MMDrawerController/MMDrawerBarButtonItem (0.5.7):
+    - MMDrawerController/Core
+  - MMDrawerController/MMDrawerVisualStates (0.5.7):
+    - MMDrawerController/Core
+  - MMDrawerController/Subclass (0.5.7):
+    - MMDrawerController/Core
+  - Realm (0.102.1):
+    - Realm/Headers (= 0.102.1)
+  - Realm/Headers (0.102.1)
+  - SVProgressHUD (2.0.3)
+  - YYText (1.0.5)
+
+DEPENDENCIES:
+  - Masonry
+  - MMDrawerController (~> 0.5.7)
+  - Realm
+  - SVProgressHUD
+  - YYText
+
+SPEC CHECKSUMS:
+  Masonry: b529bb169217897b6354d4b56b1fada6d475b13d
+  MMDrawerController: 7a4cf8e25596bf2434e03ce50d22a8608ddee6a1
+  Realm: 5254be610db3e5024879684717bf038990bb59ec
+  SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
+  YYText: ac09660c9ccd9b817f409a20caa6f5587444d2ae
+
+COCOAPODS: 0.39.0
