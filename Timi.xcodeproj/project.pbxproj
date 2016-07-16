@@ -32,7 +32,6 @@
 		870F9F541D14610F001A08B4 /* TMDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 870F9F531D14610F001A08B4 /* TMDetailTableViewController.m */; };
 		872331E41D1AE328004F558D /* TMPiewCategoryDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 872331E31D1AE328004F558D /* TMPiewCategoryDetailViewController.m */; };
 		872331E71D1AF28A004F558D /* TMPiewCategoryDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 872331E61D1AF28A004F558D /* TMPiewCategoryDetailCell.m */; };
-		872331EA1D1AFCB0004F558D /* NSString+TMNSString.m in Sources */ = {isa = PBXBuildFile; fileRef = 872331E91D1AFCB0004F558D /* NSString+TMNSString.m */; };
 		87265BA61CEA131A0020406E /* LYBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87265BA51CEA131A0020406E /* LYBaseViewController.m */; };
 		87278A251D16EA2B003822A0 /* TMModifyCategoryNameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87278A241D16EA2B003822A0 /* TMModifyCategoryNameView.m */; };
 		8748F0941D1ED7FC00343355 /* TMSideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8748F0921D1ED7FC00343355 /* TMSideViewController.m */; };
@@ -69,7 +68,8 @@
 		87C1CBE11CFD92D000DD9C62 /* TYTabButtonPagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C1CBDA1CFD92D000DD9C62 /* TYTabButtonPagerController.m */; };
 		87C1CBE21CFD92D000DD9C62 /* TYTabPagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C1CBDC1CFD92D000DD9C62 /* TYTabPagerController.m */; };
 		87C1CBE31CFD92D000DD9C62 /* TYTabTitleViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C1CBDF1CFD92D000DD9C62 /* TYTabTitleViewCell.m */; };
-		87C9FB021D218E86008DFD65 /* NSArray+TMNSArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C9FB011D218E86008DFD65 /* NSArray+TMNSArray.m */; };
+		87C585CA1D2A13A40034DE32 /* NSArray+TMNSArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C585C71D2A13A40034DE32 /* NSArray+TMNSArray.m */; };
+		87C585CB1D2A13A40034DE32 /* NSString+TMNSString.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C585C91D2A13A40034DE32 /* NSString+TMNSString.m */; };
 		87C9FB051D2195B4008DFD65 /* TMAddBookView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C9FB041D2195B4008DFD65 /* TMAddBookView.m */; };
 		87C9FB081D21A075008DFD65 /* TMAddBooKCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C9FB071D21A075008DFD65 /* TMAddBooKCell.m */; };
 		87F8687B1CE9E78300B23EEA /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 87F8687A1CE9E78300B23EEA /* libc++.tbd */; };
@@ -123,8 +123,6 @@
 		872331E31D1AE328004F558D /* TMPiewCategoryDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMPiewCategoryDetailViewController.m; sourceTree = "<group>"; };
 		872331E51D1AF28A004F558D /* TMPiewCategoryDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMPiewCategoryDetailCell.h; sourceTree = "<group>"; };
 		872331E61D1AF28A004F558D /* TMPiewCategoryDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMPiewCategoryDetailCell.m; sourceTree = "<group>"; };
-		872331E81D1AFCB0004F558D /* NSString+TMNSString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+TMNSString.h"; sourceTree = "<group>"; };
-		872331E91D1AFCB0004F558D /* NSString+TMNSString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+TMNSString.m"; sourceTree = "<group>"; };
 		87265BA41CEA131A0020406E /* LYBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYBaseViewController.h; sourceTree = "<group>"; };
 		87265BA51CEA131A0020406E /* LYBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYBaseViewController.m; sourceTree = "<group>"; };
 		87278A231D16EA2B003822A0 /* TMModifyCategoryNameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMModifyCategoryNameView.h; sourceTree = "<group>"; };
@@ -193,8 +191,10 @@
 		87C1CBDD1CFD92D000DD9C62 /* TYTabTitleCellProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYTabTitleCellProtocol.h; sourceTree = "<group>"; };
 		87C1CBDE1CFD92D000DD9C62 /* TYTabTitleViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYTabTitleViewCell.h; sourceTree = "<group>"; };
 		87C1CBDF1CFD92D000DD9C62 /* TYTabTitleViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYTabTitleViewCell.m; sourceTree = "<group>"; };
-		87C9FB001D218E86008DFD65 /* NSArray+TMNSArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+TMNSArray.h"; sourceTree = "<group>"; };
-		87C9FB011D218E86008DFD65 /* NSArray+TMNSArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+TMNSArray.m"; sourceTree = "<group>"; };
+		87C585C61D2A13A40034DE32 /* NSArray+TMNSArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+TMNSArray.h"; sourceTree = "<group>"; };
+		87C585C71D2A13A40034DE32 /* NSArray+TMNSArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+TMNSArray.m"; sourceTree = "<group>"; };
+		87C585C81D2A13A40034DE32 /* NSString+TMNSString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+TMNSString.h"; sourceTree = "<group>"; };
+		87C585C91D2A13A40034DE32 /* NSString+TMNSString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+TMNSString.m"; sourceTree = "<group>"; };
 		87C9FB031D2195B4008DFD65 /* TMAddBookView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMAddBookView.h; sourceTree = "<group>"; };
 		87C9FB041D2195B4008DFD65 /* TMAddBookView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMAddBookView.m; sourceTree = "<group>"; };
 		87C9FB061D21A075008DFD65 /* TMAddBooKCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMAddBooKCell.h; sourceTree = "<group>"; };
@@ -354,6 +354,7 @@
 		870E1ED41CDC21C300E45DD4 /* Timi */ = {
 			isa = PBXGroup;
 			children = (
+				87C585C51D2A13A40034DE32 /* Category */,
 				8748F08F1D1ED7FC00343355 /* Side */,
 				87F866E51CE9E57000B23EEA /* Vendor */,
 				87A95D221CF758710055B9A7 /* Pie */,
@@ -588,8 +589,6 @@
 		87A95D241CF758710055B9A7 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				872331E81D1AFCB0004F558D /* NSString+TMNSString.h */,
-				872331E91D1AFCB0004F558D /* NSString+TMNSString.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -621,6 +620,17 @@
 			path = TYPagerController;
 			sourceTree = "<group>";
 		};
+		87C585C51D2A13A40034DE32 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				87C585C61D2A13A40034DE32 /* NSArray+TMNSArray.h */,
+				87C585C71D2A13A40034DE32 /* NSArray+TMNSArray.m */,
+				87C585C81D2A13A40034DE32 /* NSString+TMNSString.h */,
+				87C585C91D2A13A40034DE32 /* NSString+TMNSString.m */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
 		87F866DB1CE95FF300B23EEA /* Main */ = {
 			isa = PBXGroup;
 			children = (
@@ -645,8 +655,6 @@
 			isa = PBXGroup;
 			children = (
 				8704D4121CEDE837001739E4 /* Const.h */,
-				87C9FB001D218E86008DFD65 /* NSArray+TMNSArray.h */,
-				87C9FB011D218E86008DFD65 /* NSArray+TMNSArray.m */,
 				870470141D19785E00C35B80 /* TransitionClass */,
 			);
 			path = Models;
@@ -802,13 +810,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				87053A381CF604C0005F577F /* TMCategotyCollectionViewCell.m in Sources */,
-				872331EA1D1AFCB0004F558D /* NSString+TMNSString.m in Sources */,
 				874C98CC1CF0536400B4212A /* TMHeaderView.m in Sources */,
 				870CD9621CEB4AFA00663B6F /* NSArray+Log.m in Sources */,
 				87C9FB051D2195B4008DFD65 /* TMAddBookView.m in Sources */,
 				8703EAC21D1A3A9900EF22D0 /* TMAddCategoryCollectionViewCell.m in Sources */,
 				8703EABF1D1A27DD00EF22D0 /* TMAddCategoryViewController.m in Sources */,
 				872331E71D1AF28A004F558D /* TMPiewCategoryDetailCell.m in Sources */,
+				87C585CB1D2A13A40034DE32 /* NSString+TMNSString.m in Sources */,
 				87265BA61CEA131A0020406E /* LYBaseViewController.m in Sources */,
 				87C1CBE01CFD92D000DD9C62 /* TYPagerController.m in Sources */,
 				874C98D21CF0BF7700B4212A /* TMButton.m in Sources */,
@@ -819,7 +827,6 @@
 				87278A251D16EA2B003822A0 /* TMModifyCategoryNameView.m in Sources */,
 				874C98C91CF052BB00B4212A /* TMDataBaseManager.m in Sources */,
 				870E1EDA1CDC21C300E45DD4 /* AppDelegate.m in Sources */,
-				87C9FB021D218E86008DFD65 /* NSArray+TMNSArray.m in Sources */,
 				870E1ED71CDC21C300E45DD4 /* main.m in Sources */,
 				8748F09D1D1EEFE100343355 /* TMSideCell.m in Sources */,
 				87C1CBE11CFD92D000DD9C62 /* TYTabButtonPagerController.m in Sources */,
@@ -827,6 +834,7 @@
 				87053A351CF60341005F577F /* TMCategoryCollectionViewFlowLayout.m in Sources */,
 				87A95D1F1CF748D20055B9A7 /* TMCalculatorView.m in Sources */,
 				8707CD1B1D21638E001B23DE /* TMBooks.m in Sources */,
+				87C585CA1D2A13A40034DE32 /* NSArray+TMNSArray.m in Sources */,
 				87847F261D0724EA008F283B /* TMLabel.m in Sources */,
 				8705F2291CF53BB600C93B7B /* TMCreateBillViewController.m in Sources */,
 				87C9FB081D21A075008DFD65 /* TMAddBooKCell.m in Sources */,
