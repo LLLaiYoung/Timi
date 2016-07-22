@@ -367,8 +367,10 @@
         weakSelf.rightRemarkLabel.hidden = hidden;
         if (weakSelf.clickedDelete) {//点击了删除之后不许对remarkPhtotBtn的hidden进行设置
             weakSelf.clickedDelete = NO;
+            _timeLineBill = nil;//当这个对象被删除之后,不置为nil则会报错。
             return ;
         } else {
+            NSLog(@"timeBill = %@",_timeLineBill);
             if (_timeLineBill.remarkPhoto) {
                 if (_timeLineBill.isIncome.boolValue) {
                     if (weakSelf.rightRemarkPhotoBtn.isHidden) {
