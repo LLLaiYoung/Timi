@@ -1,6 +1,3 @@
-# Timi
-
-
 ####写在最前面:
 其实本文应该早在两个月之前就该写完的，由于当时找工作，种种原因搁置到现在才写完。
 本文不可能把每一个点都能写到，如果真要一个点一个点的写，可能得写1w+字吧。再说时隔两个多月没碰这个项目了，多多少少都忘了一些。我尽可能把当时在写这个项目遇到的各种坑写详细。如果在看本文或者demo的时候有不明白的地方可以在Github上面提[issue](https://github.com/CYBoys/Timi/issues/new)或者简书简信我也可以。
@@ -39,8 +36,8 @@ TMBill(账单)
 Key | Identity | Column | Data Type | length | Allowed Null | Default | Description 
 --------- | ------------- | --------- | ------------- | --------- | ------------- | --------- | ------------- 
 √ | √ |billID |NSString |64 | | |主键
-| | |dateStr |NSString |10 | 当前年月日 |时间 
-| | |reMarks |NSString |40  |nil | 备注 
+| |dateStr |NSString |10 || 当前年月日 |时间 
+ | |reMarks |NSString |40 | |nil | 备注 
  | |remarkPhoto |NSData | |√ |nil |图片备注 
  |  |isIncome |BOOL |1 | |0 |类型(收支)
  |  |money |float |13 | |0 |金额 
@@ -55,8 +52,8 @@ TMCategory(类别)
 Key | Identity | Column | Data Type | length | Allowed Null | Default | Description 
 --------- | ------------- | --------- | ------------- | --------- | ------------- | --------- | ------------- 
 √ | √ |categoryID |NSString |64 | | |主键
-| | |categoryImageFileNmae |NSString |64 |  |类别icon文件名
-| | |categoryTitle |NSString |3 |  | 类别标题 
+ | |categoryImageFileNmae |NSString |64 ||  |类别icon文件名
+ | |categoryTitle |NSString |3 ||  | 类别标题 
  |  |isIncome |BOOL |1 | | |类型(收支)
  
  ![TMCategory(类别).png](http://upload-images.jianshu.io/upload_images/959078-eb1a791ce022a422.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
@@ -67,8 +64,8 @@ TMBook(账本)
 Key | Identity | Column | Data Type | length | Allowed Null | Default | Description 
 --------- | ------------- | --------- | ------------- | --------- | ------------- | --------- | ------------- 
 √ | √ |bookID |NSString |64 | | |主键
-| | |bookName |NSString |6 | |账本标题
-| | |imageIndex |int |2 | | 账本对应icon下标
+| |bookName |NSString |6 | ||账本标题
+ | |imageIndex |int |2 | || 账本对应icon下标
  |  |bookImageFileName |NSString |64 || |类别icon文件名
  ![TMBook(账本).png](http://upload-images.jianshu.io/upload_images/959078-21309f82d3353baf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
  
@@ -77,7 +74,7 @@ Key | Identity | Column | Data Type | length | Allowed Null | Default | Descript
  Key | Identity | Column | Data Type | length | Allowed Null | Default | Description 
 --------- | ------------- | --------- | ------------- | --------- | ------------- | --------- | ------------- 
 √ | √ |categoryID |NSString |64 | | |主键
-| | √ |categoryImageFileNmae |NSString |64 | |类别icon文件名
+ | √ |categoryImageFileNmae |NSString |64 || |类别icon文件名
  |  |isIncome |BOOL |1 | | |类型(收支)
 
 ![TMAddCategory(新增类别).png](http://upload-images.jianshu.io/upload_images/959078-3e24d45c96f1a226.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
