@@ -12,12 +12,6 @@
     {
       "idiom" : "universal",
       "scale" : "3x"
-    },
-    {
-      "idiom" : "universal",
-      "filename" : "LaunchImage-700-568h@2x.png",
-      "subtype" : "retina4",
-      "scale" : "2x"
     }
   ],
   "info" : {

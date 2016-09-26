@@ -49,6 +49,7 @@ UINavigationControllerDelegate
 @property (nonatomic, strong) NSString *reMarks;
 /** 备注图片 */
 @property (nonatomic, strong) NSData *photoData;
+
 @end
 
 @implementation TMRemarkViewController
@@ -277,24 +278,26 @@ UINavigationControllerDelegate
 #pragma mark - Notification Action
 
 - (void)keyboardWillShow:(NSNotification *)noti {
+//    [self keyboardWillHide];
     CGFloat keyboardY = [noti.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue].origin.y;
+    NSLog(@"keyboardY = %f",keyboardY);
     CGFloat camerBtnY = CGRectGetMaxY(self.accessoryView.frame);
+    NSLog(@"camerBtnY = %f",camerBtnY);
     CGFloat delta = camerBtnY - keyboardY;
-    WEAKSELF
     [UIView animateWithDuration:[noti.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue] animations:^{
-        [weakSelf.accessoryView updateConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(weakSelf.view).offset(-delta);
+        NSLog(@"delta = %f",delta);
+        [self.accessoryView updateConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view).offset(-delta);
         }];
         //* 立即掉用layoutSubviews */
-        [weakSelf.view layoutIfNeeded];
+        [self.view layoutIfNeeded];
     }];
 }
 - (void)keyboardWillHide {
-    WEAKSELF
     [self.accessoryView updateConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(weakSelf.view);
+        make.bottom.equalTo(self.view);
         //* 立即掉用layoutSubviews */
-        [weakSelf.view layoutIfNeeded];
+        [self.view layoutIfNeeded];
     }];
 }
 #pragma mark - UITextViewDelegate

@@ -33,7 +33,7 @@
 
 @implementation TMCalculatorView
 - (void)awakeFromNib {
-    
+    [super awakeFromNib];
     [self initializesWithPreparation];
 }
 /** 初始化准备 */

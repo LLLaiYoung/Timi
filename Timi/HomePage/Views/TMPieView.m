@@ -80,7 +80,7 @@ const NSTimeInterval animationTime = 1.0f;
     CABasicAnimation *baseAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
     baseAnimation.fromValue = @1.0;
     baseAnimation.toValue = @0.0;
-    baseAnimation.delegate = self;
+//    baseAnimation.delegate = self;
     baseAnimation.duration = animationTime;
     /** 逆时针的角度是负的*/
     UIBezierPath *coverPath = [UIBezierPath bezierPathWithArcCenter:center radius:(self.bounds.size.height - self.spacing)/2 startAngle:M_PI_2 endAngle: -2*M_PI+M_PI_2 clockwise:NO];

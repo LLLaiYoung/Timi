@@ -59,7 +59,7 @@
         }];
         [self.contentView addSubview:self.categotyName];
         [self.categotyName makeConstraints:^(MASConstraintMaker *make) {
-            make.width.equalTo(weakSelf.categoryImageView);
+//            make.width.equalTo(weakSelf.categoryImageView);
             make.height.mas_equalTo(20);
             make.top.equalTo(weakSelf.categoryImageView.bottom).offset(5);
             make.centerX.equalTo(weakSelf);

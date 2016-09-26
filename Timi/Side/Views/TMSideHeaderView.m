@@ -159,7 +159,7 @@
             make.left.equalTo(weakSelf).offset(20);
         }];
         [self addSubview:self.nikeNameLabel];
-        self.nikeNameLabel.text = @"LaiYoung";
+        self.nikeNameLabel.text = @"LaiYoung_";
         [self.nikeNameLabel makeConstraints:^(MASConstraintMaker *make) {
             make.width.lessThanOrEqualTo(100);
             make.centerY.equalTo(weakSelf.avatarBtn);
