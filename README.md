@@ -42,11 +42,11 @@ TMBill(账单)
 Key | Identity | Column | Data Type | length | Allowed Null | Default | Description 
 --------- | ------------- | --------- | ------------- | --------- | ------------- | --------- | ------------- 
 √ | √ |billID |NSString |64 | | |主键
-  |   |dateStr|NSString |10 | | 当前年月日 |时间 
-  |   |remarks|NSString |40 | |nil | 备注 
-  |   |remarkPhoto |NSData | |√ |nil |图片备注 
-  |   |isIncome |BOOL |1 | |0 |类型(收支)
-  |  |money |float |13 | |0 |金额 
+  | |  |dateStr|NSString |10 | | 当前年月日 |时间 
+  |  | |remarks|NSString |40 | |nil | 备注 
+  |   ||remarkPhoto |NSData | |√ |nil |图片备注 
+  |   ||isIncome |BOOL |1 | |0 |类型(收支)
+  |  ||money |float |13 | |0 |金额 
 FK | |category |TMCategory | | | |类别
 FK | |book |TMBooks | | | |账本 
 
