@@ -42,11 +42,11 @@ TMBill(账单)
 Key | Identity | Column | Data Type | length | Allowed Null | Default | Description 
 --------- | ------------- | --------- | ------------- | --------- | ------------- | --------- | ------------- 
 √ | √ |billID |NSString |64 | | |主键
-|| |dateStr |NSString |10 || 当前年月日 |时间 
- | |reMarks |NSString |40 | |nil | 备注 
- | |remarkPhoto |NSData | |√ |nil |图片备注 
- |  |isIncome |BOOL |1 | |0 |类型(收支)
- |  |money |float |13 | |0 |金额 
+  |   |dateStr|NSString |10 | | 当前年月日 |时间 
+  |   |remarks|NSString |40 | |nil | 备注 
+  |   |remarkPhoto |NSData | |√ |nil |图片备注 
+  |   |isIncome |BOOL |1 | |0 |类型(收支)
+  |  |money |float |13 | |0 |金额 
 FK | |category |TMCategory | | | |类别
 FK | |book |TMBooks | | | |账本 
 
@@ -58,7 +58,7 @@ TMCategory(类别)
 Key | Identity | Column | Data Type | length | Allowed Null | Default | Description 
 --------- | ------------- | --------- | ------------- | --------- | ------------- | --------- | ------------- 
 √ | √ |categoryID |NSString |64 | | |主键
- | |categoryImageFileNmae |NSString |64 ||  |类别icon文件名
+  |   |categoryImageFileNmae |NSString |64 ||  |类别icon文件名
  | |categoryTitle |NSString |3 ||  | 类别标题 
  |  |isIncome |BOOL |1 | | |类型(收支)
  
@@ -80,7 +80,7 @@ Key | Identity | Column | Data Type | length | Allowed Null | Default | Descript
  Key | Identity | Column | Data Type | length | Allowed Null | Default | Description 
 --------- | ------------- | --------- | ------------- | --------- | ------------- | --------- | ------------- 
 √ | √ |categoryID |NSString |64 | | |主键
- | |categoryImageFileNmae |NSString |64 || |类别icon文件名
+  | |categoryImageFileNmae |NSString |64 || |类别icon文件名
  |  |isIncome |BOOL |1 | | |类型(收支)
 
 ![TMAddCategory(新增类别).png](http://upload-images.jianshu.io/upload_images/959078-3e24d45c96f1a226.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
