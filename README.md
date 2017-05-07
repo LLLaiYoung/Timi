@@ -1,4 +1,5 @@
-####写在最前面:
+###写在最前面:
+
 如果在看本文或者demo的时候有不明白的地方可以提[issue](https://github.com/CYBoys/Timi/issues/new)或者简书简信我也可以。</br>
 温馨提示:看文章的时候结合代码一起看,效果会更佳哟。</br>
 目前完成进度70%，由于时间的关系(临近期末,各种事情的原因...)。</br>
@@ -7,11 +8,17 @@
 如果项目中同样的问题，你有更好的办法解决请告诉我，让我们一起学习。</br>
 
 废话说了一大堆，开始进入正题！！！
+
 ###项目视频演练 -> [点我啊](http://v.qq.com/page/k/0/l/k0310yxbx0l.html)
+
 ###高仿版本:3.6.1
+
 ###使用语言:Objective-C
+
 ###开发工具及调试神器:Xcode 7.3.1，Reveal 1.6.3
+
 ###用到的三方库及扩展库 					
+
 
 Name | Explain
 --------- | -------------
@@ -29,6 +36,7 @@ Realm | [移动端数据库新王者](https://realm.io/cn/docs/objc/latest/#sect
 
 
 ###数据库设计
+
 TMBill(账单)
 
 Key | Identity | Column | Data Type | length | Allowed Null | Default | Description 
@@ -81,6 +89,8 @@ TMCategory(类别)，TMAddCategory(新增类别)都是采用plist表的方式先
 
 ###项目整体结构
 
+
 ![TimiStructure.png](http://upload-images.jianshu.io/upload_images/959078-5bf4eb18f7c839c9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 
 ###更具体的细节分析请移步[简书](http://www.jianshu.com/p/d3dbf8dba11a)
