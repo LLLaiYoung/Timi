@@ -1,20 +1,18 @@
 /*************************************************************************
  *
- * REALM CONFIDENTIAL
- * __________________
+ * Copyright 2016 Realm Inc.
  *
- *  [2011] - [2015] Realm Inc
- *  All Rights Reserved.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * NOTICE:  All information contained herein is, and remains
- * the property of Realm Incorporated and its suppliers,
- * if any.  The intellectual and technical concepts contained
- * herein are proprietary to Realm Incorporated
- * and its suppliers and may be covered by U.S. and Foreign Patents,
- * patents in process, and are protected by trade secret or copyright law.
- * Dissemination of this information or reproduction of this material
- * is strictly forbidden unless prior written permission is obtained
- * from Realm Incorporated.
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  **************************************************************************/
 
@@ -29,7 +27,7 @@ namespace realm {
 
 /// Thrown by various functions to indicate that a specified table does not
 /// exist.
-class NoSuchTable: public std::exception {
+class NoSuchTable : public std::exception {
 public:
     const char* what() const noexcept override;
 };
@@ -37,7 +35,7 @@ public:
 
 /// Thrown by various functions to indicate that a specified table name is
 /// already in use.
-class TableNameInUse: public std::exception {
+class TableNameInUse : public std::exception {
 public:
     const char* what() const noexcept override;
 };
@@ -45,7 +43,7 @@ public:
 
 // Thrown by functions that require a table to **not** be the target of link
 // columns, unless those link columns are part of the table itself.
-class CrossTableLinkTarget: public std::exception {
+class CrossTableLinkTarget : public std::exception {
 public:
     const char* what() const noexcept override;
 };
@@ -53,27 +51,44 @@ public:
 
 /// Thrown by various functions to indicate that the dynamic type of a table
 /// does not match a particular other table type (dynamic or static).
-class DescriptorMismatch: public std::exception {
+class DescriptorMismatch : public std::exception {
 public:
     const char* what() const noexcept override;
 };
 
 
-/// The \c FileFormatUpgradeRequired exception can be thrown by the \c
-/// SharedGroup constructor when opening a database that uses a deprecated file
-/// format, and the user has indicated he does not want automatic upgrades to
-/// be performed. This exception indicates that until an upgrade of the file
-/// format is performed, the database will be unavailable for read or write
-/// operations.
-class FileFormatUpgradeRequired: public std::exception {
+/// The FileFormatUpgradeRequired exception can be thrown by the SharedGroup
+/// constructor when opening a database that uses a deprecated file format
+/// and/or a deprecated history schema, and the user has indicated he does not
+/// want automatic upgrades to be performed. This exception indicates that until
+/// an upgrade of the file format is performed, the database will be unavailable
+/// for read or write operations.
+class FileFormatUpgradeRequired : public std::exception {
 public:
     const char* what() const noexcept override;
 };
+
+
+/// Thrown when a sync agent attempts to join a session in which there is
+/// already a sync agent. A session may only contain one sync agent at any given
+/// time.
+class MultipleSyncAgents : public std::exception {
+public:
+    const char* what() const noexcept override;
+};
+
 
 /// Thrown when memory can no longer be mapped to. When mmap/remap fails.
-class AddressSpaceExhausted: public std::runtime_error {
+class AddressSpaceExhausted : public std::runtime_error {
 public:
     AddressSpaceExhausted(const std::string& msg);
+    /// runtime_error::what() returns the msg provided in the constructor.
+};
+
+/// Thrown when creating references that are too large to be contained in our ref_type (size_t)
+class MaximumFileSizeExceeded : public std::runtime_error {
+public:
+    MaximumFileSizeExceeded(const std::string& msg);
     /// runtime_error::what() returns the msg provided in the constructor.
 };
 
@@ -110,7 +125,7 @@ public:
 ///
 /// FIXME: This exception class should probably be moved to the `_impl`
 /// namespace, in order to avoid some confusion.
-class LogicError: public std::exception {
+class LogicError : public std::exception {
 public:
     enum ErrorKind {
         string_too_big,
@@ -189,21 +204,36 @@ public:
         /// History type (as specified by the Replication implementation passed
         /// to the SharedGroup constructor) was not consistent across the
         /// session.
-        mixed_history_type
+        mixed_history_type,
+
+        /// History schema version (as specified by the Replication
+        /// implementation passed to the SharedGroup constructor) was not
+        /// consistent across the session.
+        mixed_history_schema_version,
+
+        /// Adding rows to a table with no columns is not supported.
+        table_has_no_columns,
+
+        /// Referring to a column that has been deleted.
+        column_does_not_exist,
+
+        /// You can not add index on a subtable of a subtable
+        subtable_of_subtable_index
     };
 
     LogicError(ErrorKind message);
 
     const char* what() const noexcept override;
     ErrorKind kind() const noexcept;
+
 private:
     ErrorKind m_kind;
 };
 
 
-
-
 // Implementation:
+
+// LCOV_EXCL_START (Wording of what() strings are not to be tested)
 
 inline const char* NoSuchTable::what() const noexcept
 {
@@ -230,13 +260,25 @@ inline const char* FileFormatUpgradeRequired::what() const noexcept
     return "Database upgrade required but prohibited";
 }
 
-inline AddressSpaceExhausted::AddressSpaceExhausted(const std::string& msg):
-    std::runtime_error(msg)
+inline const char* MultipleSyncAgents::what() const noexcept
+{
+    return "Multiple sync agents attempted to join the same session";
+}
+
+// LCOV_EXCL_STOP
+
+inline AddressSpaceExhausted::AddressSpaceExhausted(const std::string& msg)
+    : std::runtime_error(msg)
 {
 }
 
-inline LogicError::LogicError(LogicError::ErrorKind kind):
-    m_kind(kind)
+inline MaximumFileSizeExceeded::MaximumFileSizeExceeded(const std::string& msg)
+    : std::runtime_error(msg)
+{
+}
+
+inline LogicError::LogicError(LogicError::ErrorKind k)
+    : m_kind(k)
 {
 }
 

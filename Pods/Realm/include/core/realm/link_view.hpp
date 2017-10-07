@@ -1,22 +1,21 @@
 /*************************************************************************
  *
- * REALM CONFIDENTIAL
- * __________________
+ * Copyright 2016 Realm Inc.
  *
- *  [2011] - [2015] Realm Inc
- *  All Rights Reserved.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * NOTICE:  All information contained herein is, and remains
- * the property of Realm Incorporated and its suppliers,
- * if any.  The intellectual and technical concepts contained
- * herein are proprietary to Realm Incorporated
- * and its suppliers and may be covered by U.S. and Foreign Patents,
- * patents in process, and are protected by trade secret or copyright law.
- * Dissemination of this information or reproduction of this material
- * is strictly forbidden unless prior written permission is obtained
- * from Realm Incorporated.
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  **************************************************************************/
+
 #ifndef REALM_LINK_VIEW_HPP
 #define REALM_LINK_VIEW_HPP
 
@@ -79,10 +78,10 @@ public:
     void clear();
 
     void sort(size_t column, bool ascending = true);
-    void sort(std::vector<size_t> columns, std::vector<bool> ascending);
+    void sort(SortDescriptor&& order);
 
-    TableView get_sorted_view(std::vector<size_t> column_indexes, std::vector<bool> ascending) const;
     TableView get_sorted_view(size_t column_index, bool ascending = true) const;
+    TableView get_sorted_view(SortDescriptor order) const;
 
     /// Remove the target row of the specified link from the target table. This
     /// also removes the specified link from this link list, and any other link
@@ -98,9 +97,10 @@ public:
     /// by its index in the target table). If found, the index of the link to
     /// that row within this list is returned, otherwise `realm::not_found` is
     /// returned.
-    size_t find(size_t target_row_ndx, size_t start=0) const noexcept;
+    size_t find(size_t target_row_ndx, size_t start = 0) const noexcept;
 
-    const ColumnBase& get_column_base(size_t index) const override; // FIXME: `ColumnBase` is not part of the public API, so this function must be made private.
+    const ColumnBase& get_column_base(size_t index)
+        const override; // FIXME: `ColumnBase` is not part of the public API, so this function must be made private.
     const Table& get_origin_table() const noexcept;
     Table& get_origin_table() noexcept;
 
@@ -111,14 +111,17 @@ public:
 
     // No-op because LinkViews are always kept in sync.
     uint_fast64_t sync_if_needed() const override;
-    bool is_in_sync() const override { return true; }
+    bool is_in_sync() const override
+    {
+        return true;
+    }
 
 private:
-    struct ctor_cookie {};
+    struct ctor_cookie {
+    };
 
     TableRef m_origin_table;
-    LinkListColumn& m_origin_column;
-    mutable size_t m_ref_count;
+    LinkListColumn* m_origin_column;
 
     using HandoverPatch = LinkViewHandoverPatch;
     static void generate_patch(const ConstLinkViewRef& ref, std::unique_ptr<HandoverPatch>& patch);
@@ -127,6 +130,7 @@ private:
     void detach();
     void set_origin_row_index(size_t row_ndx) noexcept;
 
+    void do_insert(size_t link_ndx, size_t target_row_ndx);
     size_t do_set(size_t link_ndx, size_t target_row_ndx);
     size_t do_remove(size_t link_ndx);
     void do_clear(bool broken_reciprocal_backlinks);
@@ -148,6 +152,7 @@ private:
 #endif
     // allocate using make_shared:
     static std::shared_ptr<LinkView> create(Table* origin_table, LinkListColumn&, size_t row_ndx);
+    static std::shared_ptr<LinkView> create_detached();
 
     friend class _impl::LinkListFriend;
     friend class LinkListColumn;
@@ -160,34 +165,45 @@ private:
     // because ctor_cookie is private
 public:
     LinkView(const ctor_cookie&, Table* origin_table, LinkListColumn&, size_t row_ndx);
+    LinkView(const ctor_cookie&);
 };
 
 
 // Implementation
 
-inline LinkView::LinkView(const ctor_cookie&, Table* origin_table, LinkListColumn& column, size_t row_ndx):
-    RowIndexes(IntegerColumn::unattached_root_tag(), column.get_alloc()), // Throws
-    m_origin_table(origin_table->get_table_ref()),
-    m_origin_column(column),
-    m_ref_count(0)
+inline LinkView::LinkView(const ctor_cookie&, Table* origin_table, LinkListColumn& column, size_t row_ndx)
+    : RowIndexes(IntegerColumn::unattached_root_tag(), column.get_alloc()) // Throws
+    , m_origin_table(origin_table->get_table_ref())
+    , m_origin_column(&column)
 {
-    Array& root = *m_row_indexes.get_root_array();
-    root.set_parent(&column, row_ndx);
-    if (ref_type ref = root.get_ref_from_parent())
-        root.init_from_ref(ref);
+    m_row_indexes.set_parent(m_origin_column, row_ndx);
+    m_row_indexes.init_from_parent();
 }
 
-inline std::shared_ptr<LinkView> 
-LinkView::create(Table* origin_table, LinkListColumn& column, size_t row_ndx)
+// create a detached LinkView. Only partially initialized, as it will never be used for
+// anything, but indicating that it is detached.
+inline LinkView::LinkView(const ctor_cookie&)
+    : RowIndexes(IntegerColumn::unattached_root_tag(), Allocator::get_default()) // Throws
+    , m_origin_table(TableRef())
+    , m_origin_column(nullptr)
+{
+}
+
+inline std::shared_ptr<LinkView> LinkView::create(Table* origin_table, LinkListColumn& column, size_t row_ndx)
 {
     return std::make_shared<LinkView>(ctor_cookie(), origin_table, column, row_ndx);
+}
+
+inline std::shared_ptr<LinkView> LinkView::create_detached()
+{
+    return std::make_shared<LinkView>(ctor_cookie());
 }
 
 inline LinkView::~LinkView() noexcept
 {
     if (is_attached()) {
         repl_unselect();
-        m_origin_column.unregister_linkview();
+        m_origin_column->unregister_linkview();
     }
 }
 
@@ -228,16 +244,14 @@ inline size_t LinkView::size() const noexcept
 
 inline bool LinkView::operator==(const LinkView& link_list) const noexcept
 {
-    Table& target_table_1 = m_origin_column.get_target_table();
-    Table& target_table_2 = link_list.m_origin_column.get_target_table();
+    Table& target_table_1 = m_origin_column->get_target_table();
+    Table& target_table_2 = link_list.m_origin_column->get_target_table();
     if (target_table_1.get_index_in_group() != target_table_2.get_index_in_group())
         return false;
     if (!m_row_indexes.is_attached() || m_row_indexes.is_empty()) {
-        return !link_list.m_row_indexes.is_attached() ||
-            link_list.m_row_indexes.is_empty();
+        return !link_list.m_row_indexes.is_attached() || link_list.m_row_indexes.is_empty();
     }
-    return link_list.m_row_indexes.is_attached() &&
-        m_row_indexes.compare(link_list.m_row_indexes);
+    return link_list.m_row_indexes.is_attached() && m_row_indexes.compare(link_list.m_row_indexes);
 }
 
 inline bool LinkView::operator!=(const LinkView& link_list) const noexcept
@@ -256,7 +270,7 @@ inline Table::RowExpr LinkView::get(size_t link_ndx) noexcept
     REALM_ASSERT(m_row_indexes.is_attached());
     REALM_ASSERT_3(link_ndx, <, m_row_indexes.size());
 
-    Table& target_table = m_origin_column.get_target_table();
+    Table& target_table = m_origin_column->get_target_table();
     size_t target_row_ndx = to_size_t(m_row_indexes.get(link_ndx));
     return target_table[target_row_ndx];
 }
@@ -281,7 +295,7 @@ inline void LinkView::add(size_t target_row_ndx)
 inline size_t LinkView::find(size_t target_row_ndx, size_t start) const noexcept
 {
     REALM_ASSERT(is_attached());
-    REALM_ASSERT_3(target_row_ndx, <, m_origin_column.get_target_table().size());
+    REALM_ASSERT_3(target_row_ndx, <, m_origin_column->get_target_table().size());
     REALM_ASSERT_3(start, <=, size());
 
     if (!m_row_indexes.is_attached())
@@ -319,24 +333,18 @@ inline void LinkView::set_origin_row_index(size_t row_ndx) noexcept
 
 inline const Table& LinkView::get_target_table() const noexcept
 {
-    return m_origin_column.get_target_table();
+    return m_origin_column->get_target_table();
 }
 
 inline Table& LinkView::get_target_table() noexcept
 {
-    return m_origin_column.get_target_table();
+    return m_origin_column->get_target_table();
 }
 
 inline void LinkView::refresh_accessor_tree(size_t new_row_ndx) noexcept
 {
-    Array& root = *m_row_indexes.get_root_array();
-    root.set_ndx_in_parent(new_row_ndx);
-    if (ref_type ref = root.get_ref_from_parent()) {
-        root.init_from_ref(ref);
-    }
-    else {
-        root.detach();
-    }
+    set_origin_row_index(new_row_ndx);
+    m_row_indexes.init_from_parent();
 }
 
 inline void LinkView::update_from_parent(size_t old_baseline) noexcept
@@ -370,6 +378,17 @@ public:
     {
         bool broken_reciprocal_backlinks = false;
         list.do_clear(broken_reciprocal_backlinks);
+    }
+
+    static void do_insert(LinkView& list, size_t link_ndx, size_t target_row_ndx)
+    {
+        list.do_insert(link_ndx, target_row_ndx);
+    }
+
+    static const LinkListColumn& get_origin_column(const LinkView& list)
+    {
+        REALM_ASSERT(list.is_attached());
+        return *list.m_origin_column;
     }
 };
 

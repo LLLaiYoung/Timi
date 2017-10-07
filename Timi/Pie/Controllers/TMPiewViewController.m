@@ -183,9 +183,10 @@ iCarouselDataSource
     self.leftItemLabel.numberOfLines = 2;
     self.leftItemLabel.attributedText = self.leftAttributedString;
     [self.view addSubview:self.leftItemLabel];
-    [self.leftItemLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(10);
-        make.top.equalTo(25);
+    CGFloat top = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"11.0") ? 5 : 25;
+    [self.leftItemLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(@10);
+        make.top.equalTo(@(top));
     }];
     
     [self.rightAttributedString appendAttributedString:self.rightAttributedString2];
@@ -198,8 +199,8 @@ iCarouselDataSource
     self.rightItemLabel.attributedText = self.rightAttributedString;
     [self.view addSubview:self.rightItemLabel];
     
-    [self.rightItemLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(-10);
+    [self.rightItemLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(-10);
         make.centerY.equalTo(weakSelf.leftItemLabel);
     }];
 
@@ -216,17 +217,17 @@ iCarouselDataSource
     [iCar scrollToItemAtIndex:self.sortDicKeys.count animated:NO];
     [self.view addSubview:iCar];
     
-    [iCar makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(weakSelf.leftItemLabel.bottom).offset(10);
-        make.size.equalTo(CGSizeMake(SCREEN_SIZE.width, kICarViewHeight));
+    [iCar mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(weakSelf.leftItemLabel.mas_bottom).offset(10);
+        make.size.mas_equalTo(CGSizeMake(SCREEN_SIZE.width, kICarViewHeight));
     }];
     self.iCar = iCar;
     
     self.yearLabel = [TMLabel new];
     [self.view addSubview:self.yearLabel];
 
-    [self.yearLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(iCar.bottom);
+    [self.yearLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(iCar.mas_bottom);
         make.centerX.equalTo(weakSelf.view);
     }];
     [self updateYearLabel];
@@ -240,17 +241,17 @@ iCarouselDataSource
     self.categoryTitleLabel.numberOfLines = 2;
     self.categoryTitleLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:self.categoryTitleLabel];
-    [self.categoryTitleLabel makeConstraints:^(MASConstraintMaker *make) {
+    [self.categoryTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(weakSelf.view);
-        make.top.equalTo(weakSelf.yearLabel.bottom).offset(30);
+        make.top.equalTo(weakSelf.yearLabel.mas_bottom).offset(30);
     }];
     self.categoryTitleLabel.text = @"网购";
     
     self.moneyLabel = [UILabel new];
     [self.view addSubview:self.moneyLabel];
-    [self.moneyLabel makeConstraints:^(MASConstraintMaker *make) {
+    [self.moneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(weakSelf.view);
-        make.top.equalTo(weakSelf.categoryTitleLabel.bottom).offset(5);
+        make.top.equalTo(weakSelf.categoryTitleLabel.mas_bottom).offset(5);
     }];
     self.moneyLabel.text = @"56789765.00";
     self.moneyLabel.textColor = LineColor;
@@ -259,10 +260,10 @@ iCarouselDataSource
     UIView *redLineView = [UIView new];
     redLineView.backgroundColor = [UIColor redColor];
     [self.view addSubview:redLineView];
-    [redLineView makeConstraints:^(MASConstraintMaker *make) {
-        make.width.equalTo(1);
-        make.top.equalTo(weakSelf.moneyLabel.bottom).offset(5);
-        make.height.equalTo(20);
+    [redLineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.equalTo(@1);
+        make.top.equalTo(weakSelf.moneyLabel.mas_bottom).offset(5);
+        make.height.equalTo(@20);
         make.centerX.equalTo(weakSelf.view);
     }];
     
@@ -276,10 +277,10 @@ iCarouselDataSource
     self.pieView.layer.cornerRadius = 200/2;
     self.pieView.layer.masksToBounds = YES;
 
-    [self.pieView makeConstraints:^(MASConstraintMaker *make) {
-        make.size.equalTo(CGSizeMake(200, 200));
+    [self.pieView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(200, 200));
         make.centerX.equalTo(weakSelf.view);
-        make.top.equalTo(redLineView.bottom).offset(5);
+        make.top.equalTo(redLineView.mas_bottom).offset(5);
     }];
     [self tapRightItemLabel];
 
@@ -287,8 +288,8 @@ iCarouselDataSource
     self.categoryBtn = [UIButton new];
     [self.categoryBtn addTarget:self action:@selector(clickCategoryBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.categoryBtn];
-    [self.categoryBtn makeConstraints:^(MASConstraintMaker *make) {
-        make.size.equalTo(CGSizeMake(97/2.5, 97/2.5));
+    [self.categoryBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(97/2.5, 97/2.5));
         make.centerX.equalTo(weakSelf.view);
         make.centerY.equalTo(weakSelf.pieView);
     }];
@@ -296,17 +297,17 @@ iCarouselDataSource
     
     self.percentLabel = [UILabel new];
     [self.view addSubview:self.percentLabel];
-    [self.percentLabel makeConstraints:^(MASConstraintMaker *make) {
+    [self.percentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(weakSelf.view);
-        make.top.equalTo(weakSelf.categoryBtn.bottom).offset(5);
+        make.top.equalTo(weakSelf.categoryBtn.mas_bottom).offset(5);
     }];
     self.percentLabel.text = @"88%";
     
     self.countLabel = [UILabel new];
     self.countLabel.textColor = [UIColor colorWithWhite:0.729 alpha:1.000];
     [self.view addSubview:self.countLabel];
-    [self.countLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(weakSelf.pieView.bottom).offset(20);
+    [self.countLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(weakSelf.pieView.mas_bottom).offset(20);
         make.centerX.equalTo(weakSelf.view);
     }];
     self.countLabel.text = @"1笔";
@@ -315,10 +316,10 @@ iCarouselDataSource
     [self.rotateBtn setImage:[UIImage imageNamed:@"btn_pieChart_rotation"] forState:UIControlStateNormal];
     [self.rotateBtn addTarget:self action:@selector(clickRotateBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.rotateBtn];
-    [self.rotateBtn makeConstraints:^(MASConstraintMaker *make) {
+    [self.rotateBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(weakSelf.view);
-        make.top.equalTo(self.countLabel.bottom).offset(10);
-        make.size.equalTo(CGSizeMake(40, 40));
+        make.top.equalTo(self.countLabel.mas_bottom).offset(10);
+        make.size.mas_equalTo(CGSizeMake(40, 40));
     }];
 }
 

@@ -20,11 +20,13 @@
 
 
 #import "TMRemarkViewController.h"
-#import <Masonry.h>
+#import <Masonry/Masonry.h>
 #import "UITextView+Placeholder.h"
 #import "TMButton.h"
 #import "TMActionSheetView.h"
 #import "TMBill.h"
+#import "UIImage+TMUIImage.h"
+
 @interface TMRemarkViewController ()
 <
 UITextViewDelegate,
@@ -87,13 +89,14 @@ UINavigationControllerDelegate
     [super viewWillDisappear:animated];
     [self.view endEditing:YES];
 }
-- (void)registerNotification {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide) name:UIKeyboardWillHideNotification object:nil];
-}
+//- (void)registerNotification {
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide) name:UIKeyboardWillHideNotification object:nil];
+//}
 - (void)setUpNavigationBar {
     TMButton *cancelBtn = [[TMButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-    [cancelBtn setImage:[UIImage imageNamed:@"btn_item_close"] forState:UIControlStateNormal];
+    UIImage *image = [[UIImage imageNamed:@"btn_item_close"] imageByResizeToSize:cancelBtn.frame.size];
+    [cancelBtn setImage:image forState:UIControlStateNormal];
     [cancelBtn addTarget:self action:@selector(cancelBtn:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:cancelBtn];
     self.title = @"备注";
@@ -110,8 +113,8 @@ UINavigationControllerDelegate
     self.timeLabel = ({
         UILabel *label = [UILabel new];
         [self.view addSubview:label];
-        [label makeConstraints:^(MASConstraintMaker *make) {
-            make.size.equalTo(CGSizeMake(SCREEN_SIZE.width, 30));
+        [label mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(SCREEN_SIZE.width, 30));
             make.left.equalTo(weakSelf.view).mas_offset(10);
             make.top.mas_equalTo(kMaxNBY);
         }];
@@ -129,10 +132,10 @@ UINavigationControllerDelegate
     self.contentTextView = ({
         UITextView *textView = [UITextView new];
         [self.view addSubview:textView];
-        [textView makeConstraints:^(MASConstraintMaker *make) {
-            make.size.equalTo(CGSizeMake(SCREEN_SIZE.width, 300));
-            make.top.equalTo(weakSelf.timeLabel.bottom);
-            make.left.equalTo(weakSelf.timeLabel.left);
+        [textView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(SCREEN_SIZE.width, 300));
+            make.top.equalTo(weakSelf.timeLabel.mas_bottom);
+            make.left.equalTo(weakSelf.timeLabel.mas_left);
         }];
         textView.delegate = self;
         textView.font = [UIFont systemFontOfSize:20.0f];
@@ -144,8 +147,8 @@ UINavigationControllerDelegate
     self.accessoryView = ({
         UIView *view = [UIView new];
         [self.view addSubview:view];
-        [view makeConstraints:^(MASConstraintMaker *make) {
-            make.size.equalTo(CGSizeMake(SCREEN_SIZE.width, 50));
+        [view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(SCREEN_SIZE.width, 50));
             make.left.bottom.equalTo(weakSelf.view);
         }];
         view;
@@ -155,8 +158,8 @@ UINavigationControllerDelegate
     self.camerBtn = ({
         UIButton *btn = [UIButton new];
         [self.accessoryView addSubview:btn];
-        [btn makeConstraints:^(MASConstraintMaker *make) {
-            make.size.equalTo(CGSizeMake(40, 40));
+        [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(40, 40));
             make.left.equalTo(weakSelf.timeLabel);
             make.bottom.equalTo(weakSelf.accessoryView).offset(-10);
         }];
@@ -169,8 +172,8 @@ UINavigationControllerDelegate
     self.limitLabel = ({
         UILabel *label = [UILabel new];
         [self.accessoryView addSubview:label];
-        [label makeConstraints:^(MASConstraintMaker *make) {
-            make.size.equalTo(CGSizeMake(60, 30));
+        [label mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(60, 30));
             make.bottom.equalTo(weakSelf.accessoryView).offset(-10);
             make.right.equalTo(weakSelf.accessoryView).offset(-20);
         }];
@@ -183,8 +186,8 @@ UINavigationControllerDelegate
     self.actionSheetView = ({
         TMActionSheetView *view = [TMActionSheetView new];
         [self.view addSubview:view];
-        [view makeConstraints:^(MASConstraintMaker *make) {
-            make.size.equalTo(CGSizeMake(SCREEN_SIZE.width, 0));
+        [view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(SCREEN_SIZE.width, 0));
             make.left.bottom.right.equalTo(weakSelf.view);
         }];
         view.backgroundColor = [UIColor colorWithRed:0.93 green:0.93 blue:0.93 alpha:1.00];
@@ -197,8 +200,8 @@ UINavigationControllerDelegate
 - (void)actionSheetViewEvent {
     WEAKSELF
     _actionSheetView.cancelBtnBlock = ^ {
-        [weakSelf.actionSheetView updateConstraints:^(MASConstraintMaker *make) {
-            make.size.equalTo(CGSizeMake(SCREEN_SIZE.width, 0));
+        [weakSelf.actionSheetView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(SCREEN_SIZE.width, 0));
         }];
         //* 立即掉用layoutSubviews */
         [weakSelf.view layoutIfNeeded];
@@ -248,8 +251,8 @@ UINavigationControllerDelegate
     WEAKSELF
     [self.view endEditing:YES];
     [UIView animateWithDuration:0.5f animations:^{
-        [weakSelf.actionSheetView updateConstraints:^(MASConstraintMaker *make) {
-            make.size.equalTo(CGSizeMake(SCREEN_SIZE.width, 180));
+        [weakSelf.actionSheetView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(SCREEN_SIZE.width, 180));
         }];
         //* 立即掉用layoutSubviews */
         [weakSelf.view layoutIfNeeded];
@@ -275,31 +278,41 @@ UINavigationControllerDelegate
     NSLog(@"click ComplectBtn");
     [self cancelBtn:sender];
 }
+
+- (void)registerNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrameNotification:) name:UIKeyboardWillChangeFrameNotification object:nil
+     ];
+}
+
 #pragma mark - Notification Action
 
-- (void)keyboardWillShow:(NSNotification *)noti {
-//    [self keyboardWillHide];
-    CGFloat keyboardY = [noti.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue].origin.y;
-    NSLog(@"keyboardY = %f",keyboardY);
-    CGFloat camerBtnY = CGRectGetMaxY(self.accessoryView.frame);
-    NSLog(@"camerBtnY = %f",camerBtnY);
-    CGFloat delta = camerBtnY - keyboardY;
-    [UIView animateWithDuration:[noti.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue] animations:^{
-        NSLog(@"delta = %f",delta);
-        [self.accessoryView updateConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.view).offset(-delta);
+- (void)keyboardWillChangeFrameNotification:(NSNotification *)noti {
+    CGFloat keyboardHeight = [noti.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue].size.height;
+    CGFloat keyboardMinY = [noti.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue].origin.y;
+    CGFloat animationDuration = [noti.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    if (keyboardMinY == SCREEN_SIZE.height) {
+        [UIView animateWithDuration:animationDuration animations:^{
+            [self.accessoryView mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.size.mas_equalTo(CGSizeMake(SCREEN_SIZE.width, 50));
+                make.left.bottom.equalTo(self.view);
+            }];
+            //* 立即掉用layoutSubviews */
+            [self.view layoutIfNeeded];
+        }];
+        return;
+    }
+    
+    [UIView animateWithDuration:animationDuration animations:^{
+        [self.accessoryView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view).offset(-keyboardHeight);
+            make.size.mas_equalTo(CGSizeMake(SCREEN_SIZE.width, 50));
+            make.left.equalTo(self.view);
         }];
         //* 立即掉用layoutSubviews */
         [self.view layoutIfNeeded];
     }];
 }
-- (void)keyboardWillHide {
-    [self.accessoryView updateConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view);
-        //* 立即掉用layoutSubviews */
-        [self.view layoutIfNeeded];
-    }];
-}
+
 #pragma mark - UITextViewDelegate
 - (void)textViewDidChange:(UITextView *)textView {
     NSLog(@"text = %@",textView.text);
@@ -314,8 +327,8 @@ UINavigationControllerDelegate
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
     if (self.isDisplayActionSheetView) {
         self.displayActionSheetView = NO;
-        [self.actionSheetView updateConstraints:^(MASConstraintMaker *make) {
-            make.size.equalTo(CGSizeMake(SCREEN_SIZE.width, 0));
+        [self.actionSheetView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(SCREEN_SIZE.width, 0));
         }];
         //* 立即掉用layoutSubviews */
         [self.view layoutIfNeeded];

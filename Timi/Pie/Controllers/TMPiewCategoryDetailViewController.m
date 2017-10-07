@@ -7,12 +7,13 @@
 //
 
 #import "TMPiewCategoryDetailViewController.h"
-#import <UIViewController+MMDrawerController.h>
+#import "UIViewController+MMDrawerController.h"
 #import "TMPiewCategoryDetailCell.h"
 #import "TMBill.h"
 #import "TMCategory.h"
 #import "NSArray+TMNSArray.h"
 #import "NSString+TMNSString.h"
+#import "UIImage+TMUIImage.h"
 static NSString *cellID = @"cell";
 
 #define kAttributedStringColor [UIColor colorWithWhite:0.395 alpha:1.000]
@@ -52,7 +53,14 @@ UITableViewDataSource
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.hidden = NO;
-    [[[self.navigationController.navigationBar subviews] objectAtIndex:0] setAlpha:0.0];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"11.0")) {//iOS 11 透明navigationBar
+        [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+        //去掉导航栏底部的黑线
+        self.navigationController.navigationBar.shadowImage = [UIImage new];
+    } else {
+        [[[self.navigationController.navigationBar subviews] objectAtIndex:0] setAlpha:0.0];
+    }
+    
     //* push的有问题 */
     [self.mm_drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeNone];
 }
@@ -60,9 +68,18 @@ UITableViewDataSource
     [super viewWillLayoutSubviews];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"11.0")) {
+        [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+        [self.navigationController.navigationBar setShadowImage:nil];
+    }
+}
+
 - (void)setupNavigationBar {
     UIButton *dismissBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-    [dismissBtn setImage:[UIImage imageNamed:@"back_light"] forState:UIControlStateNormal];
+    UIImage *image = [[UIImage imageNamed:@"back_light"] imageByResizeToSize:dismissBtn.frame.size];
+    [dismissBtn setImage:image forState:UIControlStateNormal];
     [dismissBtn addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:dismissBtn];
 }
@@ -71,38 +88,39 @@ UITableViewDataSource
     self.headerContainerView = [UIView new];
     [self.view addSubview:self.headerContainerView];
     WEAKSELF
-    [self.headerContainerView makeConstraints:^(MASConstraintMaker *make) {
+    CGFloat multiplied = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"11.0") ? 0.23 : 0.25;
+    [self.headerContainerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.right.equalTo(weakSelf.view);
-        make.height.equalTo(weakSelf.view).multipliedBy(0.25);
+        make.height.equalTo(weakSelf.view).multipliedBy(multiplied);
     }];
     self.grayView = [UIView new];
     self.grayView.backgroundColor = [UIColor colorWithWhite:0.880 alpha:1.000];
     [self.headerContainerView addSubview:self.grayView];
-    [self.grayView makeConstraints:^(MASConstraintMaker *make) {
+    [self.grayView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.right.equalTo(weakSelf.headerContainerView);
         make.height.equalTo(weakSelf.headerContainerView).multipliedBy(0.7);
     }];
     
     self.countLabel = [UILabel new];
     [self.grayView addSubview:self.countLabel];
-    [self.countLabel makeConstraints:^(MASConstraintMaker *make) {
+    [self.countLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(weakSelf.grayView).offset(18);
         make.bottom.equalTo(weakSelf.grayView).offset(-5);
     }];
     
     self.categoryImageView = [UIImageView new];
     [self.grayView addSubview:self.categoryImageView];
-    [self.categoryImageView makeConstraints:^(MASConstraintMaker *make) {
+    [self.categoryImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(weakSelf.grayView);
-        make.centerY.equalTo(weakSelf.grayView.bottom);
-        make.size.equalTo(CGSizeMake(40, 40));
+        make.centerY.equalTo(weakSelf.grayView.mas_bottom);
+        make.size.mas_equalTo(CGSizeMake(40, 40));
     }];
     
     self.moneyLabel  = [UILabel new];
     self.moneyLabel.font = [UIFont systemFontOfSize:20];
     self.moneyLabel.textColor = [UIColor colorWithWhite:0.190 alpha:1.000];
     [self.grayView addSubview:self.moneyLabel];
-    [self.moneyLabel makeConstraints:^(MASConstraintMaker *make) {
+    [self.moneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(weakSelf.grayView).offset(-5);
         make.bottom.equalTo(weakSelf.countLabel);
     }];
@@ -110,7 +128,7 @@ UITableViewDataSource
     self.categoryNameLabel = [UILabel new];
     self.categoryNameLabel.font = [UIFont systemFontOfSize:15.0];
     [self.headerContainerView addSubview:self.categoryNameLabel];
-    [self.categoryNameLabel makeConstraints:^(MASConstraintMaker *make) {
+    [self.categoryNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(weakSelf.headerContainerView);
         make.bottom.equalTo(weakSelf.headerContainerView).offset(-5);
     }];
@@ -123,8 +141,8 @@ UITableViewDataSource
     self.tableView.dataSource = self;
     [self.tableView registerClass:[TMPiewCategoryDetailCell class] forCellReuseIdentifier:cellID];
     [self.view addSubview:self.tableView];
-    [self.tableView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(weakSelf.headerContainerView.bottom);
+    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(weakSelf.headerContainerView.mas_bottom);
         make.left.right.bottom.equalTo(weakSelf.view);
     }];
     
@@ -134,9 +152,9 @@ UITableViewDataSource
     self.footerLineView = [UIView new];
     self.footerLineView.backgroundColor = LineColor;
     [self.view addSubview:self.footerLineView];
-    [self.footerLineView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(weakSelf.headerContainerView.bottom);
-        make.width.equalTo(1);
+    [self.footerLineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(weakSelf.headerContainerView.mas_bottom);
+        make.width.equalTo(@1);
         make.centerX.equalTo(weakSelf.view);
         make.bottom.equalTo(weakSelf.view);
     }];

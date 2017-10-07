@@ -1,39 +1,36 @@
 /*************************************************************************
  *
- * REALM CONFIDENTIAL
- * __________________
+ * Copyright 2016 Realm Inc.
  *
- *  [2011] - [2015] Realm Inc
- *  All Rights Reserved.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * NOTICE:  All information contained herein is, and remains
- * the property of Realm Incorporated and its suppliers,
- * if any.  The intellectual and technical concepts contained
- * herein are proprietary to Realm Incorporated
- * and its suppliers and may be covered by U.S. and Foreign Patents,
- * patents in process, and are protected by trade secret or copyright law.
- * Dissemination of this information or reproduction of this material
- * is strictly forbidden unless prior written permission is obtained
- * from Realm Incorporated.
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  **************************************************************************/
+
 #ifndef REALM_STRING_HPP
 #define REALM_STRING_HPP
 
-#include <cstddef>
-#include <algorithm>
-#include <string>
-#include <ostream>
-#include <cstring>
-
-#include <cfloat>
-#include <math.h>
-
+#include <realm/null.hpp>
 #include <realm/util/features.h>
 #include <realm/util/optional.hpp>
-#include <realm/utilities.hpp>
-#include <realm/null.hpp>
-#include <realm/owned_data.hpp>
+
+#include <algorithm>
+#include <array>
+#include <cfloat>
+#include <cmath>
+#include <cstddef>
+#include <cstring>
+#include <ostream>
+#include <string>
 
 namespace realm {
 
@@ -80,20 +77,20 @@ public:
     /// Construct a null reference.
     StringData() noexcept;
 
-    /// If \a data is 'null', \a size must be zero.
-    StringData(const char* data, size_t size) noexcept;
+    /// If \a external_data is 'null', \a data_size must be zero.
+    StringData(const char* external_data, size_t data_size) noexcept;
 
-    template<class T, class A>
+    template <class T, class A>
     StringData(const std::basic_string<char, T, A>&);
 
-    template<class T, class A>
+    template <class T, class A>
     operator std::basic_string<char, T, A>() const;
 
     // StringData does not store data, callers must manage their own strings.
-    template<class T, class A>
-    StringData(std::basic_string<char, T, A>&&) = delete;
+    template <class T, class A>
+    StringData(const std::basic_string<char, T, A>&&) = delete;
 
-    template<class T, class A>
+    template <class T, class A>
     StringData(const util::Optional<std::basic_string<char, T, A>>&);
 
     StringData(const null&) noexcept;
@@ -139,6 +136,11 @@ public:
     bool begins_with(StringData) const noexcept;
     bool ends_with(StringData) const noexcept;
     bool contains(StringData) const noexcept;
+    bool contains(StringData d, const std::array<uint8_t, 256> &charmap) const noexcept;
+    
+    // Wildcard matching ('?' for single char, '*' for zero or more chars)
+    // case insensitive version in unicode.hpp
+    bool like(StringData) const noexcept;
 
     //@{
     /// Undefined behavior if \a n, \a i, or <tt>i+n</tt> is greater than
@@ -149,62 +151,68 @@ public:
     StringData substr(size_t i) const noexcept;
     //@}
 
-    template<class C, class T>
-    friend std::basic_ostream<C,T>& operator<<(std::basic_ostream<C,T>&, const StringData&);
+    template <class C, class T>
+    friend std::basic_ostream<C, T>& operator<<(std::basic_ostream<C, T>&, const StringData&);
 
     explicit operator bool() const noexcept;
 
 private:
     const char* m_data;
     size_t m_size;
+
+    static bool matchlike(const StringData& text, const StringData& pattern) noexcept;
+    static bool matchlike_ins(const StringData& text, const StringData& pattern_upper,
+                              const StringData& pattern_lower) noexcept;
+
+    friend bool string_like_ins(StringData, StringData) noexcept;
+    friend bool string_like_ins(StringData, StringData, StringData) noexcept;
 };
 
 
 // Implementation:
 
-inline StringData::StringData() noexcept:
-    m_data(nullptr),
-    m_size(0)
+inline StringData::StringData() noexcept
+    : m_data(nullptr)
+    , m_size(0)
 {
 }
 
-inline StringData::StringData(const char* data, size_t size) noexcept:
-    m_data(data),
-    m_size(size)
+inline StringData::StringData(const char* external_data, size_t data_size) noexcept
+    : m_data(external_data)
+    , m_size(data_size)
 {
-    REALM_ASSERT_DEBUG(data || size == 0);
+    REALM_ASSERT_DEBUG(external_data || data_size == 0);
 }
 
-template<class T, class A>
-inline StringData::StringData(const std::basic_string<char, T, A>& s):
-    m_data(s.data()),
-    m_size(s.size())
+template <class T, class A>
+inline StringData::StringData(const std::basic_string<char, T, A>& s)
+    : m_data(s.data())
+    , m_size(s.size())
 {
 }
 
-template<class T, class A>
+template <class T, class A>
 inline StringData::operator std::basic_string<char, T, A>() const
 {
     return std::basic_string<char, T, A>(m_data, m_size);
 }
 
-template<class T, class A>
-inline StringData::StringData(const util::Optional<std::basic_string<char, T, A>>& s):
-    m_data(s ? s->data() : nullptr),
-    m_size(s ? s->size() : 0)
+template <class T, class A>
+inline StringData::StringData(const util::Optional<std::basic_string<char, T, A>>& s)
+    : m_data(s ? s->data() : nullptr)
+    , m_size(s ? s->size() : 0)
 {
 }
 
-inline StringData::StringData(const null&) noexcept:
-    m_data(nullptr),
-    m_size(0)
+inline StringData::StringData(const null&) noexcept
+    : m_data(nullptr)
+    , m_size(0)
 {
-
 }
 
-inline StringData::StringData(const char* c_str) noexcept:
-    m_data(c_str),
-    m_size(0)
+inline StringData::StringData(const char* c_str) noexcept
+    : m_data(c_str)
+    , m_size(0)
 {
     if (c_str)
         m_size = std::char_traits<char>::length(c_str);
@@ -247,8 +255,7 @@ inline bool operator<(const StringData& a, const StringData& b) noexcept
         // equal to empty strings.
         return true;
     }
-    return std::lexicographical_compare(a.m_data, a.m_data + a.m_size,
-                                        b.m_data, b.m_data + b.m_size);
+    return std::lexicographical_compare(a.m_data, a.m_data + a.m_size, b.m_data, b.m_data + b.m_size);
 }
 
 inline bool operator>(const StringData& a, const StringData& b) noexcept
@@ -285,13 +292,58 @@ inline bool StringData::contains(StringData d) const noexcept
     if (is_null() && !d.is_null())
         return false;
 
-    return d.m_size == 0 ||
-        std::search(m_data, m_data + m_size, d.m_data, d.m_data + d.m_size) != m_data + m_size;
+    return d.m_size == 0 || std::search(m_data, m_data + m_size, d.m_data, d.m_data + d.m_size) != m_data + m_size;
+}
+
+/// This method takes an array that maps chars to distance that can be moved (and zero for chars not in needle),
+/// allowing the method to apply Boyer-Moore for quick substring search
+/// The map is calculated in the StringNode<Contains> class (so it can be reused across searches)
+inline bool StringData::contains(StringData d, const std::array<uint8_t, 256> &charmap) const noexcept
+{
+    if (is_null() && !d.is_null())
+        return false;
+    
+    size_t needle_size = d.size();
+    if (needle_size == 0)
+        return true;
+    
+    // Prepare vars to avoid lookups in loop
+    size_t last_char_pos = d.size()-1;
+    unsigned char lastChar = d[last_char_pos];
+    
+    // Do Boyer-Moore search
+    size_t p = last_char_pos;
+    while (p < m_size) {
+        unsigned char c = m_data[p]; // Get candidate for last char
+        
+        if (c == lastChar) {
+            StringData candidate = substr(p-needle_size+1, needle_size);
+            if (candidate == d)
+                return true; // text found!
+        }
+        
+        // If we don't have a match, see how far we can move char_pos
+        if (charmap[c] == 0)
+            p += needle_size; // char was not present in search string
+        else
+            p += charmap[c];
+    }
+    
+    return false;
+}
+    
+inline bool StringData::like(StringData d) const noexcept
+{
+    if (is_null() || d.is_null()) {
+        return (is_null() && d.is_null());
+    }
+
+    return matchlike(*this, d);
 }
 
 inline StringData StringData::prefix(size_t n) const noexcept
 {
-    return substr(0,n);
+    return substr(0, n);
 }
 
 inline StringData StringData::suffix(size_t n) const noexcept
@@ -309,8 +361,8 @@ inline StringData StringData::substr(size_t i) const noexcept
     return substr(i, m_size - i);
 }
 
-template<class C, class T>
-inline std::basic_ostream<C,T>& operator<<(std::basic_ostream<C,T>& out, const StringData& d)
+template <class C, class T>
+inline std::basic_ostream<C, T>& operator<<(std::basic_ostream<C, T>& out, const StringData& d)
 {
     for (const char* i = d.m_data; i != d.m_data + d.m_size; ++i)
         out << *i;

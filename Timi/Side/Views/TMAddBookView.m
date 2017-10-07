@@ -14,7 +14,7 @@
 
 #import "TMAddBookView.h"
 #import "Const.h"
-#import <Masonry.h>
+#import <Masonry/Masonry.h>
 #import "NSArray+TMNSArray.h"
 #import "TMAddBooKCell.h"
 
@@ -103,7 +103,7 @@ UICollectionViewDataSource
         self.layer.cornerRadius = 10;
         self.backgroundColor = [UIColor whiteColor];
         [self addSubview:self.textField];
-        [self.textField makeConstraints:^(MASConstraintMaker *make) {
+        [self.textField mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(weakSelf).offset(10);
             make.centerX.equalTo(weakSelf);
             make.left.equalTo(weakSelf).offset(10);
@@ -112,45 +112,45 @@ UICollectionViewDataSource
         self.topLineView = [UIView new];
         self.topLineView.backgroundColor = LineColor;
         [self addSubview:self.topLineView];
-        [self.topLineView makeConstraints:^(MASConstraintMaker *make) {
+        [self.topLineView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.equalTo(weakSelf);
-            make.height.equalTo(0.5);
-            make.top.equalTo(weakSelf.textField.bottom).offset(10);
+            make.height.equalTo(@0.5);
+            make.top.equalTo(weakSelf.textField.mas_bottom).offset(10);
             make.centerX.equalTo(weakSelf);
         }];
         
         [self addSubview:self.collectionView];
-        [self.collectionView makeConstraints:^(MASConstraintMaker *make) {
+        [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.equalTo(weakSelf.textField);
-            make.top.equalTo(weakSelf.topLineView.bottom);
+            make.top.equalTo(weakSelf.topLineView.mas_bottom);
             make.bottom.equalTo(weakSelf).offset(-60);
         }];
         
         self.bottomLineView = [UIView new];
         self.bottomLineView.backgroundColor = LineColor;
         [self addSubview:self.bottomLineView];
-        [self.bottomLineView makeConstraints:^(MASConstraintMaker *make) {
+        [self.bottomLineView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.equalTo(weakSelf.topLineView);
             make.centerX.equalTo(weakSelf.topLineView);
-            make.top.equalTo(weakSelf.collectionView.bottom).offset(10);
+            make.top.equalTo(weakSelf.collectionView.mas_bottom).offset(10);
         }];
         self.verticalLineView = [UIView new];
         self.verticalLineView.backgroundColor = LineColor;
         [self addSubview:self.verticalLineView];
-        [self.verticalLineView makeConstraints:^(MASConstraintMaker *make) {
-            make.width.equalTo(0.5);
-            make.top.equalTo(weakSelf.bottomLineView.bottom);
+        [self.verticalLineView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.equalTo(@0.5);
+            make.top.equalTo(weakSelf.bottomLineView.mas_bottom);
             make.bottom.equalTo(weakSelf);
             make.centerX.equalTo(weakSelf);
         }];
         [self addSubview:self.cancelBtn];
-        [self.cancelBtn makeConstraints:^(MASConstraintMaker *make) {
+        [self.cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(weakSelf).offset(50);
             make.bottom.equalTo(weakSelf).offset(-10);
         }];
         [self addSubview:self.sureBtn];
         
-        [self.sureBtn makeConstraints:^(MASConstraintMaker *make) {
+        [self.sureBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(weakSelf).offset(-50);
             make.bottom.equalTo(weakSelf.cancelBtn);
         }];

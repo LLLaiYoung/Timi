@@ -8,7 +8,7 @@
 
 #import "LYBaseViewController.h"
 //#import <MBProgressHUD.h>
-#import <SVProgressHUD.h>
+#import <SVProgressHUD/SVProgressHUD.h>
 @interface LYBaseViewController ()
 
 @end

@@ -9,7 +9,7 @@
 #import "TMDetailTableViewController.h"
 #import "TMDataBaseManager.h"
 #import "TMDetailViewCell.h"
-#import <UIViewController+MMDrawerController.h>
+#import "UIViewController+MMDrawerController.h"
 #import "NSArray+TMNSArray.h"
 #import "NSString+TMNSString.h"
 /** 编辑按钮文本颜色 */
@@ -70,7 +70,7 @@ static NSString * const cellID = @"detailViewCell";
     [self.tableView registerClass:[TMDetailViewCell class] forCellReuseIdentifier:cellID];
     [self.view addSubview:self.tableView];
     WEAKSELF
-    [self.tableView makeConstraints:^(MASConstraintMaker *make) {
+    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(weakSelf.view);
     }];
     
@@ -80,8 +80,8 @@ static NSString * const cellID = @"detailViewCell";
     [shareBtn setTitle:@"分享" forState:UIControlStateNormal];
     [shareBtn setTitleColor:kEditBtnTitleColor forState:UIControlStateNormal];
     [self.view addSubview:shareBtn];
-    [shareBtn makeConstraints:^(MASConstraintMaker *make) {
-        make.size.equalTo(CGSizeMake(60, 60));
+    [shareBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(60, 60));
         make.right.bottom.equalTo(weakSelf.view).offset(-10);
     }];
     
@@ -91,9 +91,9 @@ static NSString * const cellID = @"detailViewCell";
     [editBtn setTitle:@"编辑" forState:UIControlStateNormal];
     [editBtn setTitleColor:kEditBtnTitleColor forState:UIControlStateNormal];
     [self.view addSubview:editBtn];
-    [editBtn makeConstraints:^(MASConstraintMaker *make) {
+    [editBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.equalTo(shareBtn);
-        make.right.equalTo(shareBtn.left).offset(-30);
+        make.right.equalTo(shareBtn.mas_left).offset(-30);
         make.bottom.equalTo(shareBtn);
     }];
 }

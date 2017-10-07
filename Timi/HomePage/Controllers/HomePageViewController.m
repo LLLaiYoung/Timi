@@ -15,8 +15,8 @@
 #import "TMHeaderView.h"
 #import "TMButton.h"
 #import "TMCalculate.h"
-#import <MMDrawerBarButtonItem.h>
-#import <UIViewController+MMDrawerController.h>
+#import "MMDrawerBarButtonItem.h"
+#import "UIViewController+MMDrawerController.h"
 #import "TMCreateBillViewController.h"
 #import "CCColorCube.h"
 #import "TMDetailTableViewController.h"
@@ -79,7 +79,7 @@ UIViewControllerTransitioningDelegate
 - (UITableView *)tableView
 {
     if (!_tableView) {
-        UITableView *tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, kHeaderViewHeight, SCREEN_SIZE.width, SCREEN_SIZE.height - kHeaderViewHeight)];
+        UITableView *tableView = [[UITableView alloc]initWithFrame:CGRectZero];
         tableView.delegate = self;
         tableView.dataSource = self;
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -92,6 +92,7 @@ UIViewControllerTransitioningDelegate
 #pragma mark - life
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.view.backgroundColor = [UIColor whiteColor];
     
     _book = [[TMDataBaseManager defaultManager] queryBooksWithBookID:[NSString readUserDefaultOfSelectedBookID]];
@@ -105,7 +106,7 @@ UIViewControllerTransitioningDelegate
         [weakSelf loadingPieView];
         [weakSelf getDataAndResetBill];
     }];
-    [[TMDataBaseManager defaultManager] numberOfAllBooksCount];// ignory
+    [[TMDataBaseManager defaultManager] numberOfAllBooksCount];// ignore
 
     
     UIScreenEdgePanGestureRecognizer *screenEdgeGR = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(clickMenuBtn:)];
@@ -132,9 +133,8 @@ UIViewControllerTransitioningDelegate
     _book = [[TMDataBaseManager defaultManager] queryBooksWithBookID:[NSString readUserDefaultOfSelectedBookID]];
     [_titleBtn setTitle:_book.bookName forState:UIControlStateNormal];
     CGFloat width = [self titleBtnSizeWithTitle:_book.bookName].width;
-    [_titleBtn updateConstraints:^(MASConstraintMaker *make) {
-        make.width.equalTo(width);
-
+    [_titleBtn mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(width);
     }];
 }
 
@@ -151,15 +151,18 @@ UIViewControllerTransitioningDelegate
     self.bills = [NSMutableArray array];
     self.results = [[TMDataBaseManager defaultManager] queryAllBillsWithBookID:[NSString readUserDefaultOfSelectedBookID]];
     if (self.results.count==0) {//当数据为空时候
-        [self.tableView bringSubviewToFront:self.newsBooksLabel];
+//        [self.tableView bringSubviewToFront:self.newsBooksLabel];
+        self.newsBooksLabel.hidden = NO;
         TMBill *bill = [TMBill new];
         bill.dateStr = [NSString currentDateStr];
         bill.empty = YES;
         [self.bills addObject:bill];
         [self.tableView reloadData];
         return;
+    } else {
+//        [self.tableView sendSubviewToBack:self.newsBooksLabel];
+        self.newsBooksLabel.hidden = YES;
     }
-    [self.tableView sendSubviewToBack:self.newsBooksLabel];
     NSMutableArray *array = [[NSMutableArray alloc] init];
     for (TMBill *bill in self.results) {
         [array addObject:bill];
@@ -192,7 +195,6 @@ UIViewControllerTransitioningDelegate
     return CGSizeMake(width, 25);
 }
 - (void)layoutSubviews {
-
     self.timeLineMenuView = [[TMTimeLineMenuView alloc] initWithFrame:self.view.frame];
     self.timeLineMenuView.timeLineMenuDelegate = self;
     [self.view addSubview:self.timeLineMenuView];
@@ -203,8 +205,9 @@ UIViewControllerTransitioningDelegate
     //* 放到tableView的最底层 */
     [self.tableView sendSubviewToBack:self.dropdownLineView];
     
-    
-    self.headerView = [[TMHeaderView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_SIZE.width, kHeaderViewHeight)];
+    CGFloat top = iPhoneX ? -44 : SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"11")?-20:0;
+
+    self.headerView = [[TMHeaderView alloc] initWithFrame:CGRectMake(0, top, SCREEN_SIZE.width, kHeaderViewHeight)];
 
     self.headerView.backgroundColor = LinebgColor;
     self.headerView.headerViewDelegate = self;
@@ -213,10 +216,10 @@ UIViewControllerTransitioningDelegate
     [menuBtn setImage:[UIImage imageNamed:@"btn_menu"] forState:UIControlStateNormal];
     [menuBtn addTarget:self action:@selector(clickMenuBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.headerView addSubview:menuBtn];
-    [menuBtn makeConstraints:^(MASConstraintMaker *make) {
-        make.size.equalTo(CGSizeMake(40, 40));
-        make.left.equalTo(10);
-        make.top.equalTo(25);
+    [menuBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(40, 40));
+        make.left.mas_equalTo(10);
+        make.top.mas_equalTo(25);
     }];
     
     _titleBtn = [UIButton new];
@@ -233,8 +236,8 @@ UIViewControllerTransitioningDelegate
     [_titleBtn addTarget:self action:@selector(clickTitltBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.headerView addSubview:_titleBtn];
     WEAKSELF
-    [_titleBtn makeConstraints:^(MASConstraintMaker *make) {
-        make.size.equalTo([weakSelf titleBtnSizeWithTitle:weakSelf.book.bookName]);
+    [_titleBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo([weakSelf titleBtnSizeWithTitle:weakSelf.book.bookName]);
         make.centerX.equalTo(weakSelf.headerView);
         make.centerY.equalTo(menuBtn);
     }];
@@ -244,14 +247,20 @@ UIViewControllerTransitioningDelegate
     [cameraBtn setImage:[UIImage imageNamed:@"btn_camera"] forState:UIControlStateNormal];
     [cameraBtn addTarget:self action:@selector(clickCameraBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.headerView addSubview:cameraBtn];
-    [cameraBtn makeConstraints:^(MASConstraintMaker *make) {
+    [cameraBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.equalTo(menuBtn);
         make.centerY.equalTo(menuBtn);
-        make.right.equalTo(-10);
+        make.right.mas_equalTo(-10);
     }];
     
     
     [self.view addSubview:self.tableView];
+//    CGRectMake(0, kHeaderViewHeight, SCREEN_SIZE.width, SCREEN_SIZE.height - kHeaderViewHeight)
+    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.headerView.mas_bottom);
+        make.left.bottom.right.equalTo(self.view);
+    }];
+    
     [self.tableView registerClass:[TMTimeLineCell class] forCellReuseIdentifier:timeLineCell];
     
     //* 隐藏滚动条 */
@@ -263,11 +272,12 @@ UIViewControllerTransitioningDelegate
     self.newsBooksLabel.font = [UIFont systemFontOfSize:20.0f];
     [self.tableView addSubview:self.newsBooksLabel];
 
-    [self.newsBooksLabel makeConstraints:^(MASConstraintMaker *make) {
+    [self.newsBooksLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(weakSelf.view);
         make.top.equalTo(weakSelf.tableView).offset(30);
     }];
-    [self.tableView sendSubviewToBack:self.newsBooksLabel];
+//    [self.tableView sendSubviewToBack:self.newsBooksLabel];
+    self.newsBooksLabel.hidden = YES;
 }
 /** 加载饼图 */
 - (void)loadingPieView {
@@ -326,13 +336,13 @@ UIViewControllerTransitioningDelegate
         self.openTitleBtn = YES;
         titleStr = [NSString stringWithFormat:@"余额 %.2f",[TMCalculate queryAmountOfPriceDifferenceWithBookID:[NSString readUserDefaultOfSelectedBookID]]];
         CGFloat width = [self titleBtnSizeWithTitle:titleStr].width;
-        [weakSelf.titleBtn updateConstraints:^(MASConstraintMaker *make) {
-            make.width.equalTo(width);
+        [weakSelf.titleBtn mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(width);
         }];
     } else {
         self.openTitleBtn = NO;
-        [weakSelf.titleBtn updateConstraints:^(MASConstraintMaker *make) {
-            make.width.equalTo([weakSelf titleBtnSizeWithTitle:weakSelf.book.bookName]);
+        [weakSelf.titleBtn mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo([weakSelf titleBtnSizeWithTitle:weakSelf.book.bookName]);
         }];
         titleStr = _book.bookName;
     }
@@ -485,7 +495,7 @@ UIViewControllerTransitioningDelegate
 
 - (void)dealloc {
     NSLog(@"good by HomePageViewController");
-    [_token stop];
+    [_token invalidate];
     [[NSNotificationCenter defaultCenter ] removeObserver:self];
 }
 

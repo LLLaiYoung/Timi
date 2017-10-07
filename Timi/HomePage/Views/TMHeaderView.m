@@ -13,7 +13,7 @@
 #define MAS_SHORTHAND_GLOBALS
 
 #import "TMHeaderView.h"
-#import <Masonry.h>
+#import <Masonry/Masonry.h>
 #import "Const.h"
 #import "TMCalculate.h"
 #import "TMPieView.h"
@@ -147,52 +147,52 @@
     if (self) {
         WEAKSELF
         [self addSubview:self.bgImageView];
-        [self.bgImageView makeConstraints:^(MASConstraintMaker *make) {
+        [self.bgImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.height.mas_equalTo(155);
             make.width.mas_equalTo(SCREEN_SIZE.width);
             make.left.top.and.right.equalTo(weakSelf);
         }];
         
         [self.bgImageView addSubview:self.pieView];
-        [self.pieView makeConstraints:^(MASConstraintMaker *make) {
-            make.size.equalTo(CGSizeMake(kCircleWidth, kCircleWidth));
+        [self.pieView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(kCircleWidth, kCircleWidth));
             make.centerX.equalTo(weakSelf.bgImageView);
-            make.centerY.equalTo(weakSelf.bgImageView.bottom);
+            make.centerY.equalTo(weakSelf.bgImageView.mas_bottom);
         }];
         [self.bgImageView addSubview:self.createBtn];
-        [self.createBtn makeConstraints:^(MASConstraintMaker *make) {
+        [self.createBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(weakSelf.pieView).insets(UIEdgeInsetsMake(30, 30, 30, 30));
         }];
         
         [self addSubview:self.incomeLabel];
-        [self.incomeLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(weakSelf.bgImageView.bottom).offset(10);
+        [self.incomeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(weakSelf.bgImageView.mas_bottom).offset(10);
             make.left.equalTo(weakSelf).offset(20);
         }];
         
         [self addSubview:self.incomeMoneyLabel];
-        [self.incomeMoneyLabel makeConstraints:^(MASConstraintMaker *make) {
+        [self.incomeMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(weakSelf.incomeLabel).offset(20);
             make.left.equalTo(weakSelf.incomeLabel);
         }];
         
         [self addSubview:self.expendLabel];
-        [self.expendLabel makeConstraints:^(MASConstraintMaker *make) {
+        [self.expendLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(weakSelf.incomeLabel);
             make.right.equalTo(weakSelf).offset(-20);
         }];
         
         [self addSubview:self.expendMoneyLabel];
-        [self.expendMoneyLabel makeConstraints:^(MASConstraintMaker *make) {
+        [self.expendMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(weakSelf.expendLabel).offset(20);
             make.right.equalTo(weakSelf.expendLabel);
         }];
         
         [self addSubview:self.lineView];
-        [self.lineView makeConstraints:^(MASConstraintMaker *make) {
-            make.size.equalTo(CGSizeMake(1, 20));
+        [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(1, 20));
             make.centerX.equalTo(weakSelf);
-            make.top.equalTo(weakSelf.pieView.bottom);
+            make.top.equalTo(weakSelf.pieView.mas_bottom);
         }];
     }
     return self;

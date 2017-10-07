@@ -12,7 +12,7 @@
 #import "TMCategoryCollectionViewFlowLayout.h"
 #import "TMCategotyCollectionViewCell.h"
 #import "TMCategory.h"
-#import <Masonry.h>
+#import <Masonry/Masonry.h>
 #import "TMButton.h"
 #import "TMDataBaseManager.h"
 #import "CCColorCube.h"
@@ -24,6 +24,8 @@
 #import "TMModifyCategoryNameView.h"
 #import "TMAddCategoryViewController.h"
 #import "NSString+TMNSString.h"
+#import "UIImage+TMUIImage.h"
+
 static NSString *const collectionIdentifier = @"categoryCell";
 @interface TMCreateBillViewController ()
 <
@@ -417,8 +419,12 @@ UICollectionViewDataSource
     self.navigationItem.titleView = self.titleView;
     
     
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"11.0")) {
+        
+    }
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-    [backBtn setImage:[UIImage imageNamed:@"btn_item_close"] forState:UIControlStateNormal];
+    UIImage *image = [[UIImage imageNamed:@"btn_item_close"] imageByResizeToSize:backBtn.frame.size];
+    [backBtn setImage:image forState:UIControlStateNormal];
     [backBtn addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
 }

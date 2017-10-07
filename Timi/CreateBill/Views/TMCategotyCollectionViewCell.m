@@ -12,7 +12,7 @@
 #define MAS_SHORTHAND_GLOBALS
 
 #import "TMCategotyCollectionViewCell.h"
-#import <Masonry.h>
+#import <Masonry/Masonry.h>
 #import "Const.h"
 #import "TMCategory.h"
 
@@ -52,16 +52,16 @@
     if (self) {
         WEAKSELF
         [self.contentView addSubview:self.categoryImageView];
-        [self.categoryImageView makeConstraints:^(MASConstraintMaker *make) {
-            make.size.equalTo(CGSizeMake(kCollectionCellWidth-20, kCollectionCellWidth-20));
+        [self.categoryImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(kCollectionCellWidth-20, kCollectionCellWidth-20));
             make.centerX.equalTo(weakSelf);
             make.top.equalTo(weakSelf).offset(5);
         }];
         [self.contentView addSubview:self.categotyName];
-        [self.categotyName makeConstraints:^(MASConstraintMaker *make) {
+        [self.categotyName mas_makeConstraints:^(MASConstraintMaker *make) {
 //            make.width.equalTo(weakSelf.categoryImageView);
             make.height.mas_equalTo(20);
-            make.top.equalTo(weakSelf.categoryImageView.bottom).offset(5);
+            make.top.mas_equalTo(weakSelf.categoryImageView.mas_bottom).offset(5);
             make.centerX.equalTo(weakSelf);
         }];
     }

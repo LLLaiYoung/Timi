@@ -11,7 +11,7 @@
 //define this constant if you want to enable auto-boxing for default syntax
 #define MAS_SHORTHAND_GLOBALS
 #import "TMSideCell.h"
-#import <Masonry.h>
+#import <Masonry/Masonry.h>
 #import "Const.h"
 #import "TMBooks.h"
 #import "NSString+TMNSString.h"
@@ -86,27 +86,27 @@
         self.bgImageView = [UIImageView new];
         self.bgImageView.image = [UIImage imageNamed:@"book_cover_0"];
         [self.contentView addSubview:self.bgImageView];
-        [self.bgImageView makeConstraints:^(MASConstraintMaker *make) {
+        [self.bgImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(weakSelf.contentView);
         }];
         [self.contentView addSubview:self.selectedItemImageView];
-        [self.selectedItemImageView makeConstraints:^(MASConstraintMaker *make) {
+        [self.selectedItemImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(weakSelf.bgImageView);
             make.left.equalTo(weakSelf.bgImageView).offset(5);
         }];
         [self.contentView addSubview:self.nameLabel];
-        [self.nameLabel makeConstraints:^(MASConstraintMaker *make) {
+        [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(weakSelf.bgImageView).offset(40);
             make.centerX.equalTo(weakSelf.bgImageView);
         }];
         [self.contentView addSubview:self.countLabel];
-        [self.countLabel makeConstraints:^(MASConstraintMaker *make) {
+        [self.countLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(weakSelf.bgImageView).offset(-10);
-            make.right.equalTo(weakSelf.bgImageView).equalTo(-5);
+            make.right.equalTo(weakSelf.bgImageView).equalTo(@(-5));
         }];
         [self.contentView addSubview:self.editSelectedItemImageView];
-        [self.editSelectedItemImageView makeConstraints:^(MASConstraintMaker *make) {
-            make.size.equalTo(CGSizeMake(25, 25));
+        [self.editSelectedItemImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(25, 25));
             make.center.equalTo(weakSelf.contentView).centerOffset(CGPointMake(0, 10));
         }];
         self.editSelectedItemImageView.hidden = YES;

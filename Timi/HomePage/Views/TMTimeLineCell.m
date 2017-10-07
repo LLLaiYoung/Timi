@@ -14,7 +14,7 @@
 
 #import "TMTimeLineCell.h"
 #import "Const.h"
-#import <Masonry.h>
+#import <Masonry/Masonry.h>
 #import "TMBill.h"
 #import "TMCategory.h"
 #import "TMCalculate.h"
@@ -242,20 +242,20 @@
         WEAKSELF
         //* --------------------------华丽的分割线----------------------------- */
         [self.contentView addSubview:self.timePointView];
-        [self.timePointView makeConstraints:^(MASConstraintMaker *make) {
-            make.size.equalTo(CGSizeMake(kTimePointViewWidth, kTimePointViewWidth));
+        [self.timePointView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(kTimePointViewWidth, kTimePointViewWidth));
             make.centerX.equalTo(weakSelf.contentView);
-            make.top.equalTo(9);
+            make.top.equalTo(@9);
         }];
         [self.contentView addSubview:self.timeLabel];
-        [self.timeLabel makeConstraints:^(MASConstraintMaker *make) {
+        [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(weakSelf.timePointView);
-            make.right.equalTo(weakSelf.timePointView.left).offset(-3);
+            make.right.equalTo(weakSelf.timePointView.mas_left).offset(-3);
         }];
         [self.contentView addSubview:self.moneyLabel];
-        [self.moneyLabel makeConstraints:^(MASConstraintMaker *make) {
+        [self.moneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(weakSelf.timePointView);
-            make.left.equalTo(weakSelf.timePointView.right).offset(3);
+            make.left.equalTo(weakSelf.timePointView.mas_right).offset(3);
         }];
         //* --------------------------华丽的分割线----------------------------- */
         
@@ -263,63 +263,63 @@
         self.lineView.frame = CGRectMake((SCREEN_SIZE.width - 1)/2, 0, 1, self.contentView.bounds.size.height);
         
         [self.contentView addSubview:self.categoryImageBtn];
-        [self.categoryImageBtn makeConstraints:^(MASConstraintMaker *make) {
-            make.size.equalTo(CGSizeMake(kTimeLineBtnWidth + 10, kTimeLineBtnWidth + 10));
+        [self.categoryImageBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(kTimeLineBtnWidth + 10, kTimeLineBtnWidth + 10));
             make.centerX.equalTo(weakSelf.contentView);
             make.bottom.equalTo(weakSelf.contentView);
         }];
         
         [self.contentView addSubview:self.leftCategoryNameLabel];
-        [self.leftCategoryNameLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.trailing.mas_equalTo(weakSelf.categoryImageBtn.leading).mas_offset(-5);
+        [self.leftCategoryNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.trailing.mas_equalTo(weakSelf.categoryImageBtn.mas_leading).mas_offset(-5);
             make.centerY.equalTo(weakSelf.categoryImageBtn);
         }];
         
         
         [self.contentView addSubview:self.leftMoneyLabel];
-        [self.leftMoneyLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.trailing.equalTo(weakSelf.leftCategoryNameLabel.leading).offset(-3);
+        [self.leftMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.trailing.equalTo(weakSelf.leftCategoryNameLabel.mas_leading).offset(-3);
             make.top.equalTo(weakSelf.leftCategoryNameLabel);
         }];
         
         [self.contentView addSubview:self.leftRemarkLabel];
-        [self.leftRemarkLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(weakSelf.leftCategoryNameLabel.bottom);
+        [self.leftRemarkLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(weakSelf.leftCategoryNameLabel.mas_bottom);
             make.right.equalTo(weakSelf.leftCategoryNameLabel);
             make.left.equalTo(weakSelf);
             
         }];
         
         [self.contentView addSubview:self.leftRemarkPhotoBtn];
-        [self.leftRemarkPhotoBtn makeConstraints:^(MASConstraintMaker *make) {
-            make.size.equalTo(CGSizeMake(kPhotoWidth, kPhotoWidth));
-            make.right.equalTo(weakSelf.categoryImageBtn.left).offset(-5);
+        [self.leftRemarkPhotoBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(kPhotoWidth, kPhotoWidth));
+            make.right.equalTo(weakSelf.categoryImageBtn.mas_left).offset(-5);
             make.centerY.equalTo(weakSelf.categoryImageBtn);
         }];
         
         [self.contentView addSubview:self.rightCategoryNameLabel];
-        [self.rightCategoryNameLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.leading.equalTo(weakSelf.categoryImageBtn.trailing).offset(5);
+        [self.rightCategoryNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.leading.equalTo(weakSelf.categoryImageBtn.mas_trailing).offset(5);
             make.centerY.equalTo(weakSelf.categoryImageBtn);
         }];
         
         [self.contentView addSubview:self.rightMoneyLabel];
-        [self.rightMoneyLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.leading.equalTo(weakSelf.rightCategoryNameLabel.trailing).offset(5);
+        [self.rightMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.leading.equalTo(weakSelf.rightCategoryNameLabel.mas_trailing).offset(5);
             make.top.equalTo(weakSelf.rightCategoryNameLabel);
         }];
         
         [self.contentView addSubview:self.rightRemarkLabel];
-        [self.rightRemarkLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(weakSelf.rightCategoryNameLabel.bottom);
+        [self.rightRemarkLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(weakSelf.rightCategoryNameLabel.mas_bottom);
             make.left.equalTo(weakSelf.rightCategoryNameLabel);
             make.right.equalTo(weakSelf);
         }];
         
         [self.contentView addSubview:self.rightRemarkPhotoBtn];
-        [self.rightRemarkPhotoBtn makeConstraints:^(MASConstraintMaker *make) {
+        [self.rightRemarkPhotoBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.equalTo(weakSelf.leftRemarkPhotoBtn);
-            make.left.equalTo(weakSelf.categoryImageBtn.right).offset(5);
+            make.left.equalTo(weakSelf.categoryImageBtn.mas_right).offset(5);
             make.centerY.equalTo(weakSelf.categoryImageBtn);
         }];
     }

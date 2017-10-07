@@ -13,7 +13,7 @@
 #define MAS_SHORTHAND_GLOBALS
 
 #import "TMAddBooKCell.h"
-#import <Masonry.h>
+#import <Masonry/Masonry.h>
 #import "Const.h"
 @interface TMAddBooKCell()
 
@@ -27,14 +27,14 @@
         self.imageView.image = [UIImage imageNamed:@"book_cover_0"];
         [self.contentView addSubview:self.imageView];
         WEAKSELF
-        [self.imageView makeConstraints:^(MASConstraintMaker *make) {
+        [self.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(weakSelf.contentView);
         }];
         self.selectedImageView = [UIImageView new];
         self.selectedImageView.image = [UIImage imageNamed:@"menu_selected_icon"];
         [self.contentView addSubview:self.selectedImageView];
-        [self.selectedImageView makeConstraints:^(MASConstraintMaker *make) {
-            make.size.equalTo(CGSizeMake(10, 20));
+        [self.selectedImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(10, 20));
             make.top.equalTo(weakSelf.contentView);
             make.left.equalTo(weakSelf.contentView).offset(5);
         }];

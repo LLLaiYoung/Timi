@@ -11,6 +11,7 @@
 #import "TMAddCategoryCollectionViewCell.h"
 #import "TMAddCategory.h"
 #import "TMCategory.h"
+#import "UIImage+TMUIImage.h"
 
 #define kItemWidth 97/2.5
 
@@ -71,7 +72,8 @@ UICollectionViewDataSource
 
 - (void)setupNavigationBar {
     TMButton *cancelBtn = [[TMButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-    [cancelBtn setImage:[UIImage imageNamed:@"btn_item_close"] forState:UIControlStateNormal];
+    UIImage *image = [[UIImage imageNamed:@"btn_item_close"] imageByResizeToSize:cancelBtn.frame.size];
+    [cancelBtn setImage:image forState:UIControlStateNormal];
     [cancelBtn addTarget:self action:@selector(cancelBtn:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:cancelBtn];
     
@@ -94,7 +96,7 @@ UICollectionViewDataSource
     self.contaierView.layer.borderWidth = 0.6;
     self.contaierView.layer.borderColor = LineColor.CGColor;
     WEAKSELF
-    [self.contaierView makeConstraints:^(MASConstraintMaker *make) {
+    [self.contaierView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(weakSelf.view);
         make.top.equalTo(weakSelf.mas_topLayoutGuide);
         make.height.equalTo(@50);
@@ -104,8 +106,8 @@ UICollectionViewDataSource
     TMAddCategory *category = self.dataSource.firstObject;
     self.imageView.image = category.image;
     [self.contaierView addSubview:self.imageView];
-    [self.imageView makeConstraints:^(MASConstraintMaker *make) {
-        make.size.equalTo(CGSizeMake(kItemWidth, kItemWidth));
+    [self.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kItemWidth, kItemWidth));
         make.left.equalTo(weakSelf.contaierView).offset(10);
         make.centerY.equalTo(weakSelf.contaierView);
     }];
@@ -114,9 +116,9 @@ UICollectionViewDataSource
     self.textField.font = [UIFont systemFontOfSize:15.0f];
     self.textField.placeholder = @"输入分类名称";
     [self.contaierView addSubview:self.textField];
-    [self.textField makeConstraints:^(MASConstraintMaker *make) {
+    [self.textField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(weakSelf.contaierView);
-        make.left.equalTo(weakSelf.imageView.right).offset(5);
+        make.left.equalTo(weakSelf.imageView.mas_right).offset(5);
         make.right.equalTo(weakSelf.contaierView);
         make.height.equalTo(weakSelf.imageView);
     }];
@@ -132,8 +134,8 @@ UICollectionViewDataSource
     self.collectionView.backgroundColor = [UIColor whiteColor];
     [self.collectionView registerClass:[TMAddCategoryCollectionViewCell class] forCellWithReuseIdentifier:collectionCellIdentifier];
     [self.view addSubview:self.collectionView];
-    [self.collectionView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(weakSelf.contaierView.bottom);
+    [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(weakSelf.contaierView.mas_bottom);
         make.left.right.bottom.equalTo(weakSelf.view);
     }];
 }

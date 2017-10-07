@@ -12,7 +12,7 @@
 #define MAS_SHORTHAND_GLOBALS
 
 #import "TMActionSheetView.h"
-#import <Masonry.h>
+#import <Masonry/Masonry.h>
 #import "Const.h"
 @interface TMActionSheetView()
 @property (nonatomic, strong) UIButton *camerBtn;
@@ -87,24 +87,24 @@
     if (self) {
         WEAKSELF
         [self addSubview:self.camerBtn];
-        [self.camerBtn makeConstraints:^(MASConstraintMaker *make) {
-            make.size.equalTo(CGSizeMake(SCREEN_SIZE.width-50, 40));
+        [self.camerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(SCREEN_SIZE.width-50, 40));
             make.centerX.equalTo(weakSelf);
             make.top.equalTo(weakSelf).offset(10);
         }];
         
         [self addSubview:self.albumBtn];
-        [self.albumBtn makeConstraints:^(MASConstraintMaker *make) {
+        [self.albumBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.equalTo(weakSelf.camerBtn);
             make.centerX.equalTo(weakSelf);
-            make.top.equalTo(weakSelf.camerBtn.bottom).offset(10);
+            make.top.equalTo(weakSelf.camerBtn.mas_bottom).offset(10);
         }];
         
         [self addSubview:self.cancelBtn];
-        [self.cancelBtn makeConstraints:^(MASConstraintMaker *make) {
-            make.size.equalTo(CGSizeMake(SCREEN_SIZE.width-50, 35));
+        [self.cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(SCREEN_SIZE.width-50, 35));
             make.centerX.equalTo(weakSelf);
-            make.top.equalTo(weakSelf.albumBtn.bottom).offset(20);
+            make.top.equalTo(weakSelf.albumBtn.mas_bottom).offset(20);
         }];
     }
     return self;

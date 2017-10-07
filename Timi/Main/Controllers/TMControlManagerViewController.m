@@ -10,7 +10,7 @@
 #import "Const.h"
 #import "HomePageViewController.h"
 #import "TMPiewViewController.h"
-#import "TYPagerController.h"
+#import <TYPagerController/TYPagerController.h>
 @interface TMControlManagerViewController ()
 <
 TYPagerControllerDataSource,
@@ -53,13 +53,15 @@ TYPagerControllerDelegate
 
 // viewController at index in pagerController
 #warning 如果Return Navi 则 push 的控制器能左右滑动
-- (UIViewController *)pagerController:(TYPagerController *)pagerController controllerForIndex:(NSInteger)index {
+
+- (UIViewController *)pagerController:(TYPagerController *)pagerController controllerForIndex:(NSInteger)index prefetching:(BOOL)prefetching {
     if (index==0) {
         return [HomePageViewController new];
     } else {
         return [TMPiewViewController new];
     }
 }
+
 #pragma mark - TYPagerControllerDelegate
 
 - (void)pagerController:(TYPagerController *)pagerController transitionFromIndex:(NSInteger)formIndex toIndex:(NSInteger)toIndex animated:(BOOL)animated {

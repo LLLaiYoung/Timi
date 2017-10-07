@@ -1,5 +1,5 @@
 PODS:
-  - Masonry (1.0.0)
+  - Masonry (1.1.0)
   - MMDrawerController (0.5.7):
     - MMDrawerController/Core (= 0.5.7)
     - MMDrawerController/MMDrawerBarButtonItem (= 0.5.7)
@@ -12,24 +12,29 @@ PODS:
     - MMDrawerController/Core
   - MMDrawerController/Subclass (0.5.7):
     - MMDrawerController/Core
-  - Realm (0.102.1):
-    - Realm/Headers (= 0.102.1)
-  - Realm/Headers (0.102.1)
-  - SVProgressHUD (2.0.3)
-  - YYText (1.0.5)
+  - Realm (3.0.0-beta.4):
+    - Realm/Headers (= 3.0.0-beta.4)
+  - Realm/Headers (3.0.0-beta.4)
+  - SVProgressHUD (2.2.1)
+  - TYPagerController (2.0.2)
+  - YYText (1.0.7)
 
 DEPENDENCIES:
   - Masonry
   - MMDrawerController (~> 0.5.7)
-  - Realm
+  - Realm (~> 3.0.0-beta.3)
   - SVProgressHUD
+  - TYPagerController
   - YYText
 
 SPEC CHECKSUMS:
-  Masonry: b529bb169217897b6354d4b56b1fada6d475b13d
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MMDrawerController: 7a4cf8e25596bf2434e03ce50d22a8608ddee6a1
-  Realm: 5254be610db3e5024879684717bf038990bb59ec
-  SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
-  YYText: ac09660c9ccd9b817f409a20caa6f5587444d2ae
+  Realm: 61978a10127ec9a4638f0df4d48a08b5e1ded77e
+  SVProgressHUD: db27c54e6e18bc903341661fc9feb55e04905cc4
+  TYPagerController: c04d27f46007aefe5055dbe6710fcf7e74da0dc3
+  YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: 8f9e072521be80a88b0419bb9106e3296808dca8
+
+COCOAPODS: 1.3.1

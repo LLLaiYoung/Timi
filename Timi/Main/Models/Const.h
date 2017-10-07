@@ -20,6 +20,14 @@
 
 /** 屏幕的SIZE */
 #define SCREEN_SIZE [[UIScreen mainScreen] bounds].size
+
+#define SCREEN_WIDTH_Phone ([[UIScreen mainScreen] respondsToSelector:@selector(nativeBounds)]?[UIScreen mainScreen].nativeBounds.size.width/[UIScreen mainScreen].nativeScale:[UIScreen mainScreen].bounds.size.width)
+
+#define SCREEN_HEIGHT_Phone ([[UIScreen mainScreen] respondsToSelector:@selector(nativeBounds)]?[UIScreen mainScreen].nativeBounds.size.height/[UIScreen mainScreen].nativeScale:[UIScreen mainScreen].bounds.size.height)
+
+#define SCREEN_WIDTH    MIN(SCREEN_WIDTH_Phone,SCREEN_HEIGHT_Phone)
+#define SCREEN_HEIGHT   MAX(SCREEN_WIDTH_Phone,SCREEN_HEIGHT_Phone)
+
 #define kStatusBarHeight  [[UIApplication sharedApplication] statusBarFrame].size.height
 /** 时光轴线条颜色 */
 #define LineColor [UIColor colorWithWhite:0.800 alpha:1.000]
@@ -57,5 +65,20 @@
 #define kColorExtractionPoint CGPointMake(30, 8)
 /** 头部类别图片的center  48.5->图片的宽 10->左边距 60->headerView的高*/
 #define kHeaderCategoryImageCenter CGPointMake(30, (kCreateBillHeaderViewFrame.size.height - 48.5)/2 + kMaxNBY);
+
+#define  adjustsTableViewInsets(tableView)\
+do {\
+if (@available(iOS 11.0, *)) {\
+tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;\
+tableView.contentInset = UIEdgeInsetsZero;\
+tableView.scrollIndicatorInsets = tableView.contentInset;\
+}\
+} while (0);
+
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+
+#define SCREEN_MAX_LENGTH (MAX(SCREEN_WIDTH, SCREEN_HEIGHT))
+#define iPhone (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+#define iPhoneX (iPhone && SCREEN_MAX_LENGTH == 812.0)
 
 #endif /* Const_h */

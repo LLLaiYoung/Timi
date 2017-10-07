@@ -13,7 +13,7 @@
 #define MAS_SHORTHAND_GLOBALS
 
 #import "TMPieView.h"
-#import <Masonry.h>
+#import <Masonry/Masonry.h>
 #import "Const.h"
 #import "TMButton.h"
 /** 动画时间 */

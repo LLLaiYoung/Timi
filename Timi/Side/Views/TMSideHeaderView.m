@@ -13,7 +13,7 @@
 #define MAS_SHORTHAND_GLOBALS
 
 #import "TMSideHeaderView.h"
-#import <Masonry.h>
+#import <Masonry/Masonry.h>
 #import "TMButton.h"
 #import "Const.h"
 #import "TMSideButton.h"
@@ -153,54 +153,54 @@
         self.backgroundColor = [UIColor whiteColor];
         WEAKSELF
         [self addSubview:self.avatarBtn];
-        [self.avatarBtn makeConstraints:^(MASConstraintMaker *make) {
-            make.size.equalTo(CGSizeMake(40, 40));
+        [self.avatarBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(40, 40));
             make.top.equalTo(weakSelf).offset(kStatusBarHeight + 10);
             make.left.equalTo(weakSelf).offset(20);
         }];
         [self addSubview:self.nikeNameLabel];
         self.nikeNameLabel.text = @"LaiYoung_";
-        [self.nikeNameLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.width.lessThanOrEqualTo(100);
+        [self.nikeNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.lessThanOrEqualTo(@100);
             make.centerY.equalTo(weakSelf.avatarBtn);
-            make.left.equalTo(weakSelf.avatarBtn.right).offset(10);
+            make.left.equalTo(weakSelf.avatarBtn.mas_right).offset(10);
         }];
         [self addSubview:self.settingBtn];
-        [self.settingBtn makeConstraints:^(MASConstraintMaker *make) {
-            make.size.equalTo(CGSizeMake(30, 40));
+        [self.settingBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(30, 40));
             make.centerY.equalTo(weakSelf.avatarBtn);
             make.right.equalTo(weakSelf).offset(-20);
         }];
         
         [self addSubview:self.synBtn];
-        [self.synBtn makeConstraints:^(MASConstraintMaker *make) {
+        [self.synBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.equalTo(weakSelf.settingBtn);
             make.centerY.equalTo(weakSelf.avatarBtn);
-            make.right.equalTo(weakSelf.settingBtn.left).offset(-10);
+            make.right.equalTo(weakSelf.settingBtn.mas_left).offset(-10);
         }];
         [self addSubview:self.lineView];
-        [self.lineView makeConstraints:^(MASConstraintMaker *make) {
-            make.width.equalTo(SCREEN_SIZE.width);
-            make.height.equalTo(0.5);
-            make.top.equalTo(weakSelf.avatarBtn.bottom).offset(15);
+        [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(SCREEN_SIZE.width);
+            make.height.equalTo(@0.5);
+            make.top.equalTo(weakSelf.avatarBtn.mas_bottom).offset(15);
         }];
         [self addSubview:self.allIncomeLabel];
        
         CGFloat width = SCREEN_SIZE.width - 50;
-        [self.allIncomeLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.width.lessThanOrEqualTo(width/3.5);
+        [self.allIncomeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_lessThanOrEqualTo(width/3.5);
             make.left.equalTo(weakSelf.avatarBtn);
-            make.top.equalTo(weakSelf.lineView.bottom).offset(15);
+            make.top.equalTo(weakSelf.lineView.mas_bottom).offset(15);
         }];
         [self addSubview:self.allExpendLabel];
         
-        [self.allExpendLabel makeConstraints:^(MASConstraintMaker *make) {
+        [self.allExpendLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(weakSelf);
             make.top.equalTo(weakSelf.allIncomeLabel);
             make.width.lessThanOrEqualTo(weakSelf.allIncomeLabel);
         }];
         [self addSubview:self.allBalanceLabel];
-        [self.allBalanceLabel makeConstraints:^(MASConstraintMaker *make) {
+        [self.allBalanceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.lessThanOrEqualTo(weakSelf.allIncomeLabel);
             make.right.equalTo(weakSelf.settingBtn);
             make.top.equalTo(weakSelf.allIncomeLabel);

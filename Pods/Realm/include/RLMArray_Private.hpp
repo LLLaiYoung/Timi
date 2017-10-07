@@ -20,43 +20,39 @@
 
 #import "RLMCollection_Private.hpp"
 
-#import <Realm/RLMResults.h>
+#import "RLMResults_Private.hpp"
 
 #import <realm/link_view_fwd.hpp>
-#import <vector>
+#import <realm/table_ref.hpp>
 
 namespace realm {
-    class LinkView;
     class Results;
-    class TableView;
-    struct SortOrder;
 }
 
-@class RLMObjectBase;
-@class RLMObjectSchema;
+@class RLMObjectBase, RLMObjectSchema, RLMProperty;
+class RLMClassInfo;
 class RLMObservationInfo;
 
 @interface RLMArray () {
-  @protected
+@protected
     NSString *_objectClassName;
-  @public
+    RLMPropertyType _type;
+    BOOL _optional;
+@public
     // The name of the property which this RLMArray represents
     NSString *_key;
     __weak RLMObjectBase *_parentObject;
 }
 @end
 
-//
-// LinkView backed RLMArray subclass
-//
-@interface RLMArrayLinkView : RLMArray <RLMFastEnumerable>
-@property (nonatomic, unsafe_unretained) RLMObjectSchema *objectSchema;
+@interface RLMManagedArray : RLMArray <RLMFastEnumerable>
+- (instancetype)initWithParent:(RLMObjectBase *)parentObject property:(RLMProperty *)property;
+- (RLMManagedArray *)initWithList:(realm::List)list
+                            realm:(__unsafe_unretained RLMRealm *const)realm
+                       parentInfo:(RLMClassInfo *)parentInfo
+                         property:(__unsafe_unretained RLMProperty *const)property;
 
-+ (RLMArrayLinkView *)arrayWithObjectClassName:(NSString *)objectClassName
-                                          view:(realm::LinkViewRef)view
-                                         realm:(RLMRealm *)realm
-                                           key:(NSString *)key
-                                  parentSchema:(RLMObjectSchema *)parentSchema;
+- (bool)isBackedByList:(realm::List const&)list;
 
 // deletes all objects in the RLMArray from their containing realms
 - (void)deleteObjectsFromRealm;
@@ -73,8 +69,5 @@ void RLMEnsureArrayObservationInfo(std::unique_ptr<RLMObservationInfo>& info,
 // RLMResults private methods
 //
 @interface RLMResults () <RLMFastEnumerable>
-+ (instancetype)resultsWithObjectSchema:(RLMObjectSchema *)objectSchema
-                                   results:(realm::Results)results;
-
 - (void)deleteObjectsFromRealm;
 @end

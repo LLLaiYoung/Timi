@@ -13,7 +13,7 @@
 
 
 #import "TMCreateHeaderView.h"
-#import <Masonry.h>
+#import <Masonry/Masonry.h>
 #import "TMButton.h"
 #import "Const.h"
 @interface TMCreateHeaderView()
@@ -71,26 +71,26 @@
     if (self) {
         WEAKSELF
         [self addSubview:self.categoryImageView];
-        [self.categoryImageView makeConstraints:^(MASConstraintMaker *make) {
-            make.size.equalTo(CGSizeMake(48.5, 48.5));
+        [self.categoryImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(48.5, 48.5));
             make.centerY.equalTo(weakSelf);
             make.left.equalTo(weakSelf).offset(10);
         }];
         
         [self addSubview:self.categoryNameBtn];
         //    [self.categoryNameBtn setTitle:@"工资" forState:UIControlStateNormal];
-        [self.categoryNameBtn makeConstraints:^(MASConstraintMaker *make) {
+        [self.categoryNameBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 //            make.size.equalTo(CGSizeMake(60, 30));
-            make.left.equalTo(weakSelf.categoryImageView.right).offset(10);
+            make.left.mas_equalTo(weakSelf.categoryImageView.mas_right).offset(10);
             make.centerY.equalTo(weakSelf);
         }];
         
         [self addSubview:self.moneyLabel];
         //    self.moneyLabel.text = @"¥ 9999999999.00";
-        [self.moneyLabel makeConstraints:^(MASConstraintMaker *make) {
+        [self.moneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 //            make.size.equalTo(CGSizeMake(weakSelf.bounds.size.width/2, 30));
             make.centerY.equalTo(weakSelf);
-            make.right.equalTo(-10);
+            make.right.equalTo(@(-10));
         }];
     }
     return self;
@@ -172,27 +172,27 @@
     WEAKSELF
     [UIView animateWithDuration:5.0 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         NSLog(@"line = %i",__LINE__);
-        [weakSelf.moneyLabel updateConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(-20);
+        [weakSelf.moneyLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(@(-20));
         }];
     } completion:^(BOOL finished) {
         [UIView animateWithDuration:5.0 animations:^{
             NSLog(@"line = %i",__LINE__);
-            [weakSelf.moneyLabel updateConstraints:^(MASConstraintMaker *make) {
-                make.right.equalTo(-10);
+            [weakSelf.moneyLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.right.equalTo(@(-10));
             }];
         }];
     }];
     [UIView animateWithDuration:5.0 delay:10.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         NSLog(@"line = %i",__LINE__);
-        [weakSelf.moneyLabel updateConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(-20);
+        [weakSelf.moneyLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(@(-20));
         }];
     } completion:^(BOOL finished) {
         [UIView animateWithDuration:5.0 animations:^{
             NSLog(@"line = %i",__LINE__);
-            [weakSelf.moneyLabel updateConstraints:^(MASConstraintMaker *make) {
-                make.right.equalTo(-10);
+            [weakSelf.moneyLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.right.equalTo(@(-10));
             }];
         }];
     }];

@@ -10,7 +10,7 @@
 #import "TMSideHeaderView.h"
 #import "TMSideCell.h"
 #import "TMSideButton.h"
-#import <UIViewController+MMDrawerController.h>
+#import "UIViewController+MMDrawerController.h"
 #import "TMAddBookView.h"
 #import "NSString+TMNSString.h"
 #import "HomePageViewController.h"
@@ -124,9 +124,9 @@ TMSideCellDelegate
     
     self.headerView = [TMSideHeaderView new];
     [self.view addSubview:self.headerView];
-    [self.headerView makeConstraints:^(MASConstraintMaker *make) {
-        make.width.equalTo(SCREEN_SIZE.width-50);//50 side距离右边50个像素点
-        make.height.equalTo(140);
+    [self.headerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(SCREEN_SIZE.width-50);//50 side距离右边50个像素点
+        make.height.mas_equalTo(140);
         make.top.equalTo(weakSelf.view);
     }];
     CGFloat width = SCREEN_SIZE.width - 50 - 20 * 2 - 10 * 3 ;
@@ -142,8 +142,8 @@ TMSideCellDelegate
     self.collectionView.backgroundColor = [UIColor whiteColor];
     self.collectionView.showsVerticalScrollIndicator = NO;
     [self.view addSubview:self.collectionView];
-    [self.collectionView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(weakSelf.headerView.bottom);
+    [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(weakSelf.headerView.mas_bottom);
         make.left.equalTo(weakSelf.view);
         make.bottom.equalTo(weakSelf.view).offset(-70);
         make.width.equalTo(weakSelf.view);
@@ -151,16 +151,16 @@ TMSideCellDelegate
     UIView *lineView = [UIView new];
     lineView.backgroundColor = LineColor;
     [self.view addSubview:lineView];
-    [lineView makeConstraints:^(MASConstraintMaker *make) {
-        make.width.equalTo(viewWidth);
-        make.height.equalTo(0.5);
-        make.top.equalTo(weakSelf.collectionView.bottom).offset(-2);
+    [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(viewWidth);
+        make.height.mas_equalTo(0.5);
+        make.top.equalTo(weakSelf.collectionView.mas_bottom).offset(-2);
     }];
     
     [self.view addSubview:self.exploreBtn];
-    [self.exploreBtn makeConstraints:^(MASConstraintMaker *make) {
+    [self.exploreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(weakSelf.view);
-        make.size.equalTo(CGSizeMake(60, 60));
+        make.size.mas_equalTo(CGSizeMake(60, 60));
         make.bottom.equalTo(weakSelf.view);
     }];
     self.containerView = [UIView new];
@@ -168,14 +168,14 @@ TMSideCellDelegate
     self.window = [UIApplication sharedApplication].windows.lastObject;
     [self.window addSubview:self.containerView];
     self.containerView.backgroundColor = [UIColor colorWithWhite:0.597 alpha:0.300];
-    [self.containerView makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(UIEdgeInsetsMake(0, 0, 0, 0));
+    [self.containerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(UIEdgeInsetsMake(0, 0, 0, 0));
     }];
     
     self.addBookView = [TMAddBookView new];
     [self.containerView addSubview:self.addBookView];
-    [self.addBookView makeConstraints:^(MASConstraintMaker *make) {
-        make.width.equalTo(SCREEN_SIZE.width - 80);
+    [self.addBookView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(SCREEN_SIZE.width - 80);
         make.height.equalTo(weakSelf.containerView).multipliedBy(0.25);
         make.centerX.equalTo(weakSelf.containerView);
         make.top.equalTo(weakSelf.containerView).offset(150);
@@ -230,19 +230,19 @@ TMSideCellDelegate
 - (void)layoutMenuOperationBtn {
     WEAKSELF
     [self.view addSubview:self.cancelBtn];
-    [self.cancelBtn makeConstraints:^(MASConstraintMaker *make) {
-        make.size.equalTo(CGSizeMake(60, 60));
+    [self.cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(60, 60));
         make.left.equalTo(weakSelf.view).offset(20);
         make.bottom.equalTo(weakSelf.view).offset(60);
     }];
     [self.view addSubview:self.deleteBtn];
-    [self.deleteBtn makeConstraints:^(MASConstraintMaker *make) {
+    [self.deleteBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.equalTo(weakSelf.cancelBtn);
         make.centerX.equalTo(weakSelf.view);
         make.bottom.equalTo(weakSelf.cancelBtn);
     }];
     [self.view addSubview:self.editBtn];
-    [self.editBtn makeConstraints:^(MASConstraintMaker *make) {
+    [self.editBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.equalTo(weakSelf.cancelBtn);
         make.right.equalTo(weakSelf.collectionView).offset(-20);
         make.bottom.equalTo(weakSelf.cancelBtn);
@@ -391,11 +391,11 @@ TMSideCellDelegate
 - (void)animationWithAppear {
     WEAKSELF
     [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        [self.cancelBtn updateConstraints:^(MASConstraintMaker *make) {
+        [self.cancelBtn mas_updateConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(weakSelf.view);
         }];
     } completion:^(BOOL finished) {
-        [self.exploreBtn updateConstraints:^(MASConstraintMaker *make) {
+        [self.exploreBtn mas_updateConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(weakSelf.view).offset(60);
         }];
     }];
@@ -404,11 +404,11 @@ TMSideCellDelegate
 - (void)animationWithDisAppear {
     WEAKSELF
     [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        [self.cancelBtn updateConstraints:^(MASConstraintMaker *make) {
+        [self.cancelBtn mas_updateConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(weakSelf.view).offset(60);
         }];
     } completion:^(BOOL finished) {
-        [self.exploreBtn updateConstraints:^(MASConstraintMaker *make) {
+        [self.exploreBtn mas_updateConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(weakSelf.view);
         }];
     }];    

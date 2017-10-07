@@ -2,7 +2,7 @@
 //  SVRadialGradientLayer.m
 //  SVProgressHUD, https://github.com/SVProgressHUD/SVProgressHUD
 //
-//  Copyright (c) 2014-2016 Tobias Tiemerding. All rights reserved.
+//  Copyright (c) 2014-2017 Tobias Tiemerding. All rights reserved.
 //
 
 #import "SVRadialGradientLayer.h"
@@ -12,7 +12,7 @@
 - (void)drawInContext:(CGContextRef)context {
     size_t locationsCount = 2;
     CGFloat locations[2] = {0.0f, 1.0f};
-    CGFloat colors[8] = {0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.75f};
+    CGFloat colors[8] = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.75f};
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     CGGradientRef gradient = CGGradientCreateWithColorComponents(colorSpace, colors, locations, locationsCount);
     CGColorSpaceRelease(colorSpace);

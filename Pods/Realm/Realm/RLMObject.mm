@@ -16,13 +16,27 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
+#import "RLMObject_Private.hpp"
+
 #import "RLMAccessor.h"
-#import "RLMObject_Private.h"
+#import "RLMArray.h"
+#import "RLMCollection_Private.hpp"
+#import "RLMObjectBase_Private.h"
 #import "RLMObjectSchema_Private.hpp"
 #import "RLMObjectStore.h"
-#import "RLMSchema_Private.h"
-#import "RLMRealm_Private.hpp"
+#import "RLMProperty.h"
 #import "RLMQueryUtil.hpp"
+#import "RLMRealm_Private.hpp"
+#import "RLMSchema_Private.h"
+
+#import "collection_notifications.hpp"
+#import "object.hpp"
+
+@interface RLMPropertyChange ()
+@property (nonatomic, readwrite, strong) NSString *name;
+@property (nonatomic, readwrite, strong, nullable) id previousValue;
+@property (nonatomic, readwrite, strong, nullable) id value;
+@end
 
 // We declare things in RLMObject which are actually implemented in RLMObjectBase
 // for documentation's sake, which leads to -Wunimplemented-method warnings.
@@ -45,21 +59,14 @@
     return [super initWithValue:value schema:schema];
 }
 
-- (instancetype)initWithRealm:(__unsafe_unretained RLMRealm *const)realm
-                       schema:(__unsafe_unretained RLMObjectSchema *const)schema {
+- (instancetype)initWithRealm:(__unsafe_unretained RLMRealm *const)realm schema:(RLMObjectSchema *)schema {
     return [super initWithRealm:realm schema:schema];
 }
 
 #pragma mark - Convenience Initializers
 
 - (instancetype)initWithValue:(id)value {
-    [self.class sharedSchema]; // ensure this class' objectSchema is loaded in the partialSharedSchema
-    RLMSchema *schema = RLMSchema.partialSharedSchema;
-    return [super initWithValue:value schema:schema];
-}
-
-- (instancetype)initWithObject:(id)object {
-    return [self initWithValue:object];
+    return [super initWithValue:value schema:RLMSchema.partialPrivateSharedSchema];
 }
 
 #pragma mark - Class-based Object Creation
@@ -68,24 +75,12 @@
     return (RLMObject *)RLMCreateObjectInRealmWithValue([RLMRealm defaultRealm], [self className], value, false);
 }
 
-+ (instancetype)createInDefaultRealmWithObject:(id)object {
-    return [self createInDefaultRealmWithValue:object];
-}
-
 + (instancetype)createInRealm:(RLMRealm *)realm withValue:(id)value {
     return (RLMObject *)RLMCreateObjectInRealmWithValue(realm, [self className], value, false);
 }
 
-+ (instancetype)createInRealm:(RLMRealm *)realm withObject:(id)object {
-    return [self createInRealm:realm withValue:object];
-}
-
 + (instancetype)createOrUpdateInDefaultRealmWithValue:(id)value {
     return [self createOrUpdateInRealm:[RLMRealm defaultRealm] withValue:value];
-}
-
-+ (instancetype)createOrUpdateInDefaultRealmWithObject:(id)object {
-    return [self createOrUpdateInDefaultRealmWithValue:object];
 }
 
 + (instancetype)createOrUpdateInRealm:(RLMRealm *)realm withValue:(id)value {
@@ -96,10 +91,6 @@
         @throw [NSException exceptionWithName:@"RLMExecption" reason:reason userInfo:nil];
     }
     return (RLMObject *)RLMCreateObjectInRealmWithValue(realm, [self className], value, true);
-}
-
-+ (instancetype)createOrUpdateInRealm:(RLMRealm *)realm withObject:(id)object {
-    return [self createOrUpdateInRealm:realm withValue:object];
 }
 
 #pragma mark - Subscripting
@@ -118,7 +109,7 @@
     return RLMGetObjects(RLMRealm.defaultRealm, self.className, nil);
 }
 
-+ (RLMResults *)allObjectsInRealm:(RLMRealm *)realm {
++ (RLMResults *)allObjectsInRealm:(__unsafe_unretained RLMRealm *const)realm {
     return RLMGetObjects(realm, self.className, nil);
 }
 
@@ -164,12 +155,31 @@
 
 #pragma mark - Other Instance Methods
 
-- (NSArray *)linkingObjectsOfClass:(NSString *)className forProperty:(NSString *)property {
-    return RLMObjectBaseLinkingObjectsOfClass(self, className, property);
-}
-
 - (BOOL)isEqualToObject:(RLMObject *)object {
     return [object isKindOfClass:RLMObject.class] && RLMObjectBaseAreEqual(self, object);
+}
+
+- (RLMNotificationToken *)addNotificationBlock:(RLMObjectChangeBlock)block {
+    return RLMObjectAddNotificationBlock(self, ^(NSArray<NSString *> *propertyNames,
+                                                 NSArray *oldValues, NSArray *newValues, NSError *error) {
+        if (error) {
+            block(false, nil, error);
+        }
+        else if (!propertyNames) {
+            block(true, nil, nil);
+        }
+        else {
+            auto properties = [NSMutableArray arrayWithCapacity:propertyNames.count];
+            for (NSUInteger i = 0, count = propertyNames.count; i < count; ++i) {
+                auto prop = [RLMPropertyChange new];
+                prop.name = propertyNames[i];
+                prop.previousValue = RLMCoerceToNil(oldValues[i]);
+                prop.value = RLMCoerceToNil(newValues[i]);
+                [properties addObject:prop];
+            }
+            block(false, properties, nil);
+        }
+    });
 }
 
 + (NSString *)className {
@@ -199,7 +209,7 @@
 }
 
 + (NSArray *)requiredProperties {
-    return nil;
+    return @[];
 }
 
 @end
@@ -211,7 +221,7 @@
 }
 
 - (id)valueForUndefinedKey:(NSString *)key {
-    return RLMDynamicGet(self, RLMValidatedGetProperty(self, key));
+    return RLMDynamicGetByName(self, key, false);
 }
 
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key {
@@ -222,8 +232,7 @@
 
 @implementation RLMWeakObjectHandle {
     realm::Row _row;
-    RLMRealm *_realm;
-    RLMObjectSchema *_objectSchema;
+    RLMClassInfo *_info;
     Class _objectClass;
 }
 
@@ -233,17 +242,170 @@
     }
 
     _row = object->_row;
-    _realm = object->_realm;
-    _objectSchema = object->_objectSchema;
+    _info = object->_info;
     _objectClass = object.class;
 
     return self;
 }
 
 - (RLMObjectBase *)object {
-    RLMObjectBase *object = [[_objectClass alloc] initWithRealm:_realm schema:_objectSchema];
+    RLMObjectBase *object = RLMCreateManagedAccessor(_objectClass, _info->realm, _info);
     object->_row = std::move(_row);
     return object;
 }
 
+- (id)copyWithZone:(__unused NSZone *)zone {
+    RLMWeakObjectHandle *copy = [[RLMWeakObjectHandle alloc] init];
+    copy->_row = _row;
+    copy->_info = _info;
+    copy->_objectClass = _objectClass;
+    return copy;
+}
+
+@end
+
+static bool treatFakeObjectAsRLMObject = false;
+void RLMSetTreatFakeObjectAsRLMObject(BOOL flag) {
+    treatFakeObjectAsRLMObject = flag;
+}
+
+BOOL RLMIsObjectOrSubclass(Class klass) {
+    if (RLMIsKindOfClass(klass, RLMObjectBase.class)) {
+        return YES;
+    }
+
+    if (treatFakeObjectAsRLMObject) {
+        static Class FakeObjectClass = NSClassFromString(@"FakeObject");
+        return RLMIsKindOfClass(klass, FakeObjectClass);
+    }
+    return NO;
+}
+
+BOOL RLMIsObjectSubclass(Class klass) {
+    auto isSubclass = [](Class class1, Class class2) {
+        class1 = class_getSuperclass(class1);
+        return RLMIsKindOfClass(class1, class2);
+    };
+    if (isSubclass(class_getSuperclass(klass), RLMObjectBase.class)) {
+        return YES;
+    }
+
+    if (treatFakeObjectAsRLMObject) {
+        static Class FakeObjectClass = NSClassFromString(@"FakeObject");
+        return isSubclass(klass, FakeObjectClass);
+    }
+    return NO;
+}
+
+@interface RLMObjectNotificationToken : RLMCancellationToken
+@end
+@implementation RLMObjectNotificationToken {
+@public
+    realm::Object _object;
+}
+@end
+
+RLMNotificationToken *RLMObjectAddNotificationBlock(RLMObjectBase *obj, RLMObjectNotificationCallback block) {
+    if (!obj->_realm) {
+        @throw RLMException(@"Only objects which are managed by a Realm support change notifications");
+    }
+    [obj->_realm verifyNotificationsAreSupported:true];
+
+    struct {
+        void (^block)(NSArray<NSString *> *, NSArray *, NSArray *, NSError *);
+        RLMObjectBase *object;
+
+        NSArray<NSString *> *propertyNames = nil;
+        NSArray *oldValues = nil;
+        bool deleted = false;
+
+        void populateProperties(realm::CollectionChangeSet const& c) {
+            if (propertyNames) {
+                return;
+            }
+            if (!c.deletions.empty()) {
+                deleted = true;
+                return;
+            }
+            if (c.columns.empty()) {
+                return;
+            }
+
+            auto properties = [NSMutableArray new];
+            for (size_t i = 0; i < c.columns.size(); ++i) {
+                if (c.columns[i].empty()) {
+                    continue;
+                }
+                if (auto prop = object->_info->propertyForTableColumn(i)) {
+                    [properties addObject:prop.name];
+                }
+            }
+            if (properties.count) {
+                propertyNames = properties;
+            }
+        }
+
+        NSArray *readValues(realm::CollectionChangeSet const& c) {
+            if (c.empty()) {
+                return nil;
+            }
+            populateProperties(c);
+            if (!propertyNames) {
+                return nil;
+            }
+
+            auto values = [NSMutableArray arrayWithCapacity:propertyNames.count];
+            for (NSString *name in propertyNames) {
+                id value = [object valueForKey:name];
+                if (!value || [value isKindOfClass:[RLMArray class]]) {
+                    [values addObject:NSNull.null];
+                }
+                else {
+                    [values addObject:value];
+                }
+            }
+            return values;
+        }
+
+        void before(realm::CollectionChangeSet const& c) {
+            @autoreleasepool {
+                oldValues = readValues(c);
+            }
+        }
+
+        void after(realm::CollectionChangeSet const& c) {
+            @autoreleasepool {
+                auto newValues = readValues(c);
+                if (deleted) {
+                    block(nil, nil, nil, nil);
+                }
+                else if (newValues) {
+                    block(propertyNames, oldValues, newValues, nil);
+                }
+                propertyNames = nil;
+                oldValues = nil;
+            }
+        }
+
+        void error(std::exception_ptr err) {
+            @autoreleasepool {
+                try {
+                    rethrow_exception(err);
+                }
+                catch (...) {
+                    NSError *error = nil;
+                    RLMRealmTranslateException(&error);
+                    block(nil, nil, nil, error);
+                }
+            }
+        }
+    } callback{block, obj};
+
+    realm::Object object(obj->_realm->_realm, *obj->_info->objectSchema, obj->_row);
+    auto token = [[RLMObjectNotificationToken alloc] initWithToken:object.add_notification_callback(callback) realm:obj->_realm];
+    token->_object = std::move(object);
+    return token;
+}
+
+@implementation RLMPropertyChange
 @end

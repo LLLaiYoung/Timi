@@ -13,7 +13,7 @@
 #define MAS_SHORTHAND_GLOBALS
 
 #import "TMModifyCategoryNameView.h"
-#import <Masonry.h>
+#import <Masonry/Masonry.h>
 #import "Const.h"
 #import "TMCategory.h"
 #define kContainerViewWidth 50
@@ -121,36 +121,36 @@
         [self addSubview:self.cancelBtn];
         [self addSubview:self.sureBtn];
         WEAKSELF
-        [self.categoryContainerView makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(weakSelf.top);
+        [self.categoryContainerView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(weakSelf.mas_top);
             make.centerX.equalTo(weakSelf);
-            make.size.equalTo(CGSizeMake(kContainerViewWidth, kContainerViewWidth));
+            make.size.mas_equalTo(CGSizeMake(kContainerViewWidth, kContainerViewWidth));
         }];
         
         self.categoryImageView.image = [UIImage imageNamed:@"type_big_2"];
-        [self.categoryImageView makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(UIEdgeInsetsMake(2, 2, 2, 2));
+        [self.categoryImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.mas_equalTo(UIEdgeInsetsMake(2, 2, 2, 2));
         }];
         self.categoryLabel.text = @"服饰";
-        [self.categoryLabel makeConstraints:^(MASConstraintMaker *make) {
+        [self.categoryLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(weakSelf);
             make.top.equalTo(weakSelf).offset(30.5);
         }];
         self.textField.placeholder = @"服饰";
-        [self.textField makeConstraints:^(MASConstraintMaker *make) {
-            make.size.equalTo(CGSizeMake(100, 20));
+        [self.textField mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(100, 20));
             make.center.equalTo(weakSelf);
         }];
-        [self.lineView makeConstraints:^(MASConstraintMaker *make) {
-            make.size.equalTo(CGSizeMake(100, 1));
-            make.top.equalTo(weakSelf.textField.bottom).offset(1);
+        [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(100, 1));
+            make.top.equalTo(weakSelf.textField.mas_bottom).offset(1);
             make.centerX.equalTo(weakSelf.textField);
         }];
-        [self.cancelBtn makeConstraints:^(MASConstraintMaker *make) {
+        [self.cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(weakSelf).offset(20);
             make.bottom.equalTo(weakSelf).offset(-5);
         }];
-        [self.sureBtn makeConstraints:^(MASConstraintMaker *make) {
+        [self.sureBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(weakSelf).offset(-20);
             make.bottom.equalTo(weakSelf.cancelBtn);
         }];

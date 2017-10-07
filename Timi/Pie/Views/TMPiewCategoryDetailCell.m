@@ -13,7 +13,7 @@
 
 #import "TMPiewCategoryDetailCell.h"
 #import "Const.h"
-#import <Masonry.h>
+#import <Masonry/Masonry.h>
 #import "TMBill.h"
 #import "TMCategory.h"
 #import "NSString+TMNSString.h"
@@ -142,49 +142,49 @@
         [self.contentView addSubview:self.lineView];
         
         [self.contentView addSubview:self.pointView];
-        [self.pointView makeConstraints:^(MASConstraintMaker *make) {
+        [self.pointView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.center.equalTo(weakSelf.contentView);
-            make.size.equalTo(CGSizeMake(kPointViewWidth, kPointViewWidth));
+            make.size.mas_equalTo(CGSizeMake(kPointViewWidth, kPointViewWidth));
         }];
         
         [self.contentView addSubview:self.smallLineView];
-        [self.smallLineView makeConstraints:^(MASConstraintMaker *make) {
-            make.size.equalTo(CGSizeMake(5, 1));
+        [self.smallLineView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(5, 1));
             make.top.equalTo(weakSelf.contentView).offset(5);
-            make.right.equalTo(weakSelf.lineView.left);
+            make.right.equalTo(weakSelf.lineView.mas_left);
         }];
         
         [self.contentView addSubview:self.categoryName_moneyLabel];
-        [self.categoryName_moneyLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(weakSelf.lineView.left).offset(10.5);
-            make.height.equalTo(30);
+        [self.categoryName_moneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(weakSelf.lineView.mas_left).offset(10.5);
+            make.height.equalTo(@30);
             make.right.lessThanOrEqualTo(weakSelf.contentView);
             make.centerY.equalTo(weakSelf.contentView);
         }];
         
         [self.contentView addSubview:self.dayLabel];
-        [self.dayLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(weakSelf.contentView.centerY);
-            make.right.equalTo(weakSelf.lineView.left).offset(-20);
+        [self.dayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(weakSelf.contentView.mas_centerY);
+            make.right.equalTo(weakSelf.lineView.mas_left).offset(-20);
         }];
         
         [self.contentView addSubview:self.year_monthLabel];
-        [self.year_monthLabel makeConstraints:^(MASConstraintMaker *make) {
+        [self.year_monthLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(weakSelf.contentView);
-            make.right.equalTo(weakSelf.smallLineView.left).offset(-5);
-            make.height.equalTo(12);
+            make.right.equalTo(weakSelf.smallLineView.mas_left).offset(-5);
+            make.height.equalTo(@12);
         }];
         
         [self.contentView addSubview:self.numberLabel];
-        [self.numberLabel makeConstraints:^(MASConstraintMaker *make) {
+        [self.numberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.height.equalTo(weakSelf.categoryName_moneyLabel);
-            make.top.equalTo(weakSelf.year_monthLabel.bottom);
-            make.right.equalTo(weakSelf.dayLabel.left).offset(-5);
+            make.top.equalTo(weakSelf.year_monthLabel.mas_bottom);
+            make.right.equalTo(weakSelf.dayLabel.mas_left).offset(-5);
         }];
         
         [self.contentView addSubview:self.remarkLabel];
-        [self.remarkLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(weakSelf.categoryName_moneyLabel.bottom);
+        [self.remarkLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(weakSelf.categoryName_moneyLabel.mas_bottom);
             make.left.equalTo(weakSelf.categoryName_moneyLabel);
             make.right.lessThanOrEqualTo(weakSelf.contentView);
         }];
@@ -195,9 +195,9 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     WEAKSELF
-    [self.lineView makeConstraints:^(MASConstraintMaker *make) {
+    [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(weakSelf.contentView);
-        make.size.equalTo(CGSizeMake(1, weakSelf.contentView.bounds.size.height));
+        make.size.mas_equalTo(CGSizeMake(1, weakSelf.contentView.bounds.size.height));
     }];
 }
 

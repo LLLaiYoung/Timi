@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		433BEDB169D7866398ACD72E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC5A3B4A33CE1DBC2E786C24 /* libPods.a */; };
+		42046AEBA7002D2A1B3DC924 /* Pods_Timi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F9DCDEF3CFAADA6775136E /* Pods_Timi.framework */; };
+		83B801931F888A8500D09FE0 /* UIImage+TMUIImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B801921F888A8500D09FE0 /* UIImage+TMUIImage.m */; };
 		8703EABF1D1A27DD00EF22D0 /* TMAddCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8703EABE1D1A27DD00EF22D0 /* TMAddCategoryViewController.m */; };
 		8703EAC21D1A3A9900EF22D0 /* TMAddCategoryCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8703EAC11D1A3A9900EF22D0 /* TMAddCategoryCollectionViewCell.m */; };
 		8703EAC41D1A3E0400EF22D0 /* addCategory.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8703EAC31D1A3E0400EF22D0 /* addCategory.plist */; };
@@ -64,10 +65,6 @@
 		87A95D281CF758820055B9A7 /* TMPiewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87A95D271CF758820055B9A7 /* TMPiewViewController.m */; };
 		87A95D2B1CF758B30055B9A7 /* TMControlManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87A95D2A1CF758B30055B9A7 /* TMControlManagerViewController.m */; };
 		87BB004E1D17AFA9005BA237 /* category.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87BB004D1D17AFA9005BA237 /* category.plist */; };
-		87C1CBE01CFD92D000DD9C62 /* TYPagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C1CBD81CFD92D000DD9C62 /* TYPagerController.m */; };
-		87C1CBE11CFD92D000DD9C62 /* TYTabButtonPagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C1CBDA1CFD92D000DD9C62 /* TYTabButtonPagerController.m */; };
-		87C1CBE21CFD92D000DD9C62 /* TYTabPagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C1CBDC1CFD92D000DD9C62 /* TYTabPagerController.m */; };
-		87C1CBE31CFD92D000DD9C62 /* TYTabTitleViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C1CBDF1CFD92D000DD9C62 /* TYTabTitleViewCell.m */; };
 		87C585CA1D2A13A40034DE32 /* NSArray+TMNSArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C585C71D2A13A40034DE32 /* NSArray+TMNSArray.m */; };
 		87C585CB1D2A13A40034DE32 /* NSString+TMNSString.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C585C91D2A13A40034DE32 /* NSString+TMNSString.m */; };
 		87C9FB051D2195B4008DFD65 /* TMAddBookView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C9FB041D2195B4008DFD65 /* TMAddBookView.m */; };
@@ -76,7 +73,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6C883BF59CC03EE499CB7984 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		00F9DCDEF3CFAADA6775136E /* Pods_Timi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Timi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		076E92EDB3423A21744DF846 /* Pods-Timi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Timi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Timi/Pods-Timi.debug.xcconfig"; sourceTree = "<group>"; };
+		2849A8561EE5E1EFFA2957FD /* Pods-Timi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Timi.release.xcconfig"; path = "Pods/Target Support Files/Pods-Timi/Pods-Timi.release.xcconfig"; sourceTree = "<group>"; };
+		83B801911F888A8500D09FE0 /* UIImage+TMUIImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+TMUIImage.h"; sourceTree = "<group>"; };
+		83B801921F888A8500D09FE0 /* UIImage+TMUIImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+TMUIImage.m"; sourceTree = "<group>"; };
 		8703EABD1D1A27DD00EF22D0 /* TMAddCategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMAddCategoryViewController.h; sourceTree = "<group>"; };
 		8703EABE1D1A27DD00EF22D0 /* TMAddCategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMAddCategoryViewController.m; sourceTree = "<group>"; };
 		8703EAC01D1A3A9900EF22D0 /* TMAddCategoryCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMAddCategoryCollectionViewCell.h; sourceTree = "<group>"; };
@@ -182,15 +183,6 @@
 		87A95D291CF758B30055B9A7 /* TMControlManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMControlManagerViewController.h; sourceTree = "<group>"; };
 		87A95D2A1CF758B30055B9A7 /* TMControlManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMControlManagerViewController.m; sourceTree = "<group>"; };
 		87BB004D1D17AFA9005BA237 /* category.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = category.plist; sourceTree = "<group>"; };
-		87C1CBD71CFD92D000DD9C62 /* TYPagerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYPagerController.h; sourceTree = "<group>"; };
-		87C1CBD81CFD92D000DD9C62 /* TYPagerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYPagerController.m; sourceTree = "<group>"; };
-		87C1CBD91CFD92D000DD9C62 /* TYTabButtonPagerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYTabButtonPagerController.h; sourceTree = "<group>"; };
-		87C1CBDA1CFD92D000DD9C62 /* TYTabButtonPagerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYTabButtonPagerController.m; sourceTree = "<group>"; };
-		87C1CBDB1CFD92D000DD9C62 /* TYTabPagerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYTabPagerController.h; sourceTree = "<group>"; };
-		87C1CBDC1CFD92D000DD9C62 /* TYTabPagerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYTabPagerController.m; sourceTree = "<group>"; };
-		87C1CBDD1CFD92D000DD9C62 /* TYTabTitleCellProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYTabTitleCellProtocol.h; sourceTree = "<group>"; };
-		87C1CBDE1CFD92D000DD9C62 /* TYTabTitleViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYTabTitleViewCell.h; sourceTree = "<group>"; };
-		87C1CBDF1CFD92D000DD9C62 /* TYTabTitleViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYTabTitleViewCell.m; sourceTree = "<group>"; };
 		87C585C61D2A13A40034DE32 /* NSArray+TMNSArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+TMNSArray.h"; sourceTree = "<group>"; };
 		87C585C71D2A13A40034DE32 /* NSArray+TMNSArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+TMNSArray.m"; sourceTree = "<group>"; };
 		87C585C81D2A13A40034DE32 /* NSString+TMNSString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+TMNSString.h"; sourceTree = "<group>"; };
@@ -201,8 +193,6 @@
 		87C9FB071D21A075008DFD65 /* TMAddBooKCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMAddBooKCell.m; sourceTree = "<group>"; };
 		87F868731CE9E5F600B23EEA /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		87F8687A1CE9E78300B23EEA /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
-		D1FD72026565254A34E74F97 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		DC5A3B4A33CE1DBC2E786C24 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -212,18 +202,18 @@
 			files = (
 				8771B2D41D00AB46008751E5 /* libz.tbd in Frameworks */,
 				87F8687B1CE9E78300B23EEA /* libc++.tbd in Frameworks */,
-				433BEDB169D7866398ACD72E /* libPods.a in Frameworks */,
+				42046AEBA7002D2A1B3DC924 /* Pods_Timi.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3D3811C8F608DF5CE69BE301 /* Pods */ = {
+		6749982AEF18A6D4BE36EA7E /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				D1FD72026565254A34E74F97 /* Pods.debug.xcconfig */,
-				6C883BF59CC03EE499CB7984 /* Pods.release.xcconfig */,
+				076E92EDB3423A21744DF846 /* Pods-Timi.debug.xcconfig */,
+				2849A8561EE5E1EFFA2957FD /* Pods-Timi.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -234,7 +224,7 @@
 				8771B2D31D00AB46008751E5 /* libz.tbd */,
 				87F8687A1CE9E78300B23EEA /* libc++.tbd */,
 				87F868731CE9E5F600B23EEA /* libstdc++.tbd */,
-				DC5A3B4A33CE1DBC2E786C24 /* libPods.a */,
+				00F9DCDEF3CFAADA6775136E /* Pods_Timi.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -338,8 +328,8 @@
 			children = (
 				870E1ED41CDC21C300E45DD4 /* Timi */,
 				870E1ED31CDC21C300E45DD4 /* Products */,
-				3D3811C8F608DF5CE69BE301 /* Pods */,
 				7FEE019AAA77049E840E4F4F /* Frameworks */,
+				6749982AEF18A6D4BE36EA7E /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -604,22 +594,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		87C1CBD61CFD92D000DD9C62 /* TYPagerController */ = {
-			isa = PBXGroup;
-			children = (
-				87C1CBD71CFD92D000DD9C62 /* TYPagerController.h */,
-				87C1CBD81CFD92D000DD9C62 /* TYPagerController.m */,
-				87C1CBD91CFD92D000DD9C62 /* TYTabButtonPagerController.h */,
-				87C1CBDA1CFD92D000DD9C62 /* TYTabButtonPagerController.m */,
-				87C1CBDB1CFD92D000DD9C62 /* TYTabPagerController.h */,
-				87C1CBDC1CFD92D000DD9C62 /* TYTabPagerController.m */,
-				87C1CBDD1CFD92D000DD9C62 /* TYTabTitleCellProtocol.h */,
-				87C1CBDE1CFD92D000DD9C62 /* TYTabTitleViewCell.h */,
-				87C1CBDF1CFD92D000DD9C62 /* TYTabTitleViewCell.m */,
-			);
-			path = TYPagerController;
-			sourceTree = "<group>";
-		};
 		87C585C51D2A13A40034DE32 /* Category */ = {
 			isa = PBXGroup;
 			children = (
@@ -627,6 +601,8 @@
 				87C585C71D2A13A40034DE32 /* NSArray+TMNSArray.m */,
 				87C585C81D2A13A40034DE32 /* NSString+TMNSString.h */,
 				87C585C91D2A13A40034DE32 /* NSString+TMNSString.m */,
+				83B801911F888A8500D09FE0 /* UIImage+TMUIImage.h */,
+				83B801921F888A8500D09FE0 /* UIImage+TMUIImage.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -673,7 +649,6 @@
 				87847F1A1D06C700008F283B /* iCarousel */,
 				8771B2CA1CFFBCE2008751E5 /* UITextView_PlaceHolder */,
 				8771B2B61CFF176F008751E5 /* SZCalendarPicker */,
-				87C1CBD61CFD92D000DD9C62 /* TYPagerController */,
 				875F41771CF9C68900C7A114 /* ColorExtraction */,
 				870CD95F1CEB4AFA00663B6F /* Log */,
 			);
@@ -688,12 +663,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 870E1EE91CDC21C300E45DD4 /* Build configuration list for PBXNativeTarget "Timi" */;
 			buildPhases = (
-				542D764C62580DABF68D2C48 /* Check Pods Manifest.lock */,
+				F6F7884484C363982996BBB8 /* [CP] Check Pods Manifest.lock */,
 				870E1ECE1CDC21C300E45DD4 /* Sources */,
 				870E1ECF1CDC21C300E45DD4 /* Frameworks */,
 				870E1ED01CDC21C300E45DD4 /* Resources */,
-				708D5EC8C0BFD6A814A7CBFB /* Embed Pods Frameworks */,
-				39FBB10432368D1A9C888051 /* Copy Pods Resources */,
+				AA2756FC396AA3F92A16934B /* [CP] Embed Pods Frameworks */,
+				5554CFD2AB8FDCD9C2C553D6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -758,49 +733,68 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		39FBB10432368D1A9C888051 /* Copy Pods Resources */ = {
+		5554CFD2AB8FDCD9C2C553D6 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Timi/Pods-Timi-resources.sh",
+				"${PODS_ROOT}/SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle",
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Timi/Pods-Timi-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		542D764C62580DABF68D2C48 /* Check Pods Manifest.lock */ = {
+		AA2756FC396AA3F92A16934B /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Timi/Pods-Timi-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/MMDrawerController/MMDrawerController.framework",
+				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/TYPagerController/TYPagerController.framework",
+				"${BUILT_PRODUCTS_DIR}/YYText/YYText.framework",
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MMDrawerController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TYPagerController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYText.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Timi/Pods-Timi-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		708D5EC8C0BFD6A814A7CBFB /* Embed Pods Frameworks */ = {
+		F6F7884484C363982996BBB8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Timi-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -818,8 +812,8 @@
 				8703EABF1D1A27DD00EF22D0 /* TMAddCategoryViewController.m in Sources */,
 				872331E71D1AF28A004F558D /* TMPiewCategoryDetailCell.m in Sources */,
 				87C585CB1D2A13A40034DE32 /* NSString+TMNSString.m in Sources */,
+				83B801931F888A8500D09FE0 /* UIImage+TMUIImage.m in Sources */,
 				87265BA61CEA131A0020406E /* LYBaseViewController.m in Sources */,
-				87C1CBE01CFD92D000DD9C62 /* TYPagerController.m in Sources */,
 				874C98D21CF0BF7700B4212A /* TMButton.m in Sources */,
 				874C98BC1CF052AC00B4212A /* TMTimeLineCell.m in Sources */,
 				870D881B1D1D901D0038C375 /* CCColorCube.m in Sources */,
@@ -830,8 +824,6 @@
 				870E1EDA1CDC21C300E45DD4 /* AppDelegate.m in Sources */,
 				870E1ED71CDC21C300E45DD4 /* main.m in Sources */,
 				8748F09D1D1EEFE100343355 /* TMSideCell.m in Sources */,
-				87C1CBE11CFD92D000DD9C62 /* TYTabButtonPagerController.m in Sources */,
-				87C1CBE31CFD92D000DD9C62 /* TYTabTitleViewCell.m in Sources */,
 				87053A351CF60341005F577F /* TMCategoryCollectionViewFlowLayout.m in Sources */,
 				87A95D1F1CF748D20055B9A7 /* TMCalculatorView.m in Sources */,
 				8707CD1B1D21638E001B23DE /* TMBooks.m in Sources */,
@@ -845,7 +837,6 @@
 				874C98CF1CF0947E00B4212A /* TMPieView.m in Sources */,
 				870F9F541D14610F001A08B4 /* TMDetailTableViewController.m in Sources */,
 				8771B2C91CFFB6A8008751E5 /* TMRemarkViewController.m in Sources */,
-				87C1CBE21CFD92D000DD9C62 /* TYTabPagerController.m in Sources */,
 				870470131D19785800C35B80 /* LYPushTransition.m in Sources */,
 				874C98C61CF052BB00B4212A /* TMBill.m in Sources */,
 				870D881C1D1D901D0038C375 /* CCLocalMaximum.m in Sources */,
@@ -968,7 +959,7 @@
 		};
 		870E1EEA1CDC21C300E45DD4 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D1FD72026565254A34E74F97 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 076E92EDB3423A21744DF846 /* Pods-Timi.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -979,6 +970,7 @@
 					"$(PROJECT_DIR)/Timi/Main/Vendor",
 				);
 				INFOPLIST_FILE = Timi/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.LaiYoung.Timi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -988,7 +980,7 @@
 		};
 		870E1EEB1CDC21C300E45DD4 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6C883BF59CC03EE499CB7984 /* Pods.release.xcconfig */;
+			baseConfigurationReference = 2849A8561EE5E1EFFA2957FD /* Pods-Timi.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -999,6 +991,7 @@
 					"$(PROJECT_DIR)/Timi/Main/Vendor",
 				);
 				INFOPLIST_FILE = Timi/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.LaiYoung.Timi;
 				PRODUCT_NAME = "$(TARGET_NAME)";

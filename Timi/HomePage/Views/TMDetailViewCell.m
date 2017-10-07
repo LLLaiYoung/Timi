@@ -13,9 +13,9 @@
 //define this constant if you want to enable auto-boxing for default syntax
 #define MAS_SHORTHAND_GLOBALS
 #import "TMDetailViewCell.h"
-#import <Masonry.h>
+#import <Masonry/Masonry.h>
 #import "Const.h"
-#import <YYText.h>
+#import <YYText/YYText.h>
 #import "TMBill.h"
 #import "TMCategory.h"
 #define kDetailViewTimePointWidth 10
@@ -167,46 +167,46 @@
         self.containerRemarkLabelView.backgroundColor = [UIColor whiteColor];
         
         WEAKSELF
-        [self.lineView makeConstraints:^(MASConstraintMaker *make) {
-            make.size.equalTo(CGSizeMake(1.5, SCREEN_SIZE.height));
+        [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(1.5, SCREEN_SIZE.height));
             make.centerX.equalTo(weakSelf.contentView);
             make.top.equalTo(weakSelf.contentView);
         }];
         
         self.containerCategoryImageAndLabelView.backgroundColor = [UIColor whiteColor];
-        [self.containerCategoryImageAndLabelView makeConstraints:^(MASConstraintMaker *make) {
-            make.size.equalTo(CGSizeMake(SCREEN_SIZE.width, kDetailViewContainerViewHeight));
+        [self.containerCategoryImageAndLabelView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(SCREEN_SIZE.width, kDetailViewContainerViewHeight));
             make.center.equalTo(weakSelf.contentView).priorityLow();
         }];
         
         self.categoryImageView.image = [UIImage imageNamed:@"type_big_1006"];
-        [self.categoryImageView makeConstraints:^(MASConstraintMaker *make) {
-            make.size.equalTo(CGSizeMake(40, 40));
+        [self.categoryImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(40, 40));
             make.centerX.equalTo(weakSelf.containerCategoryImageAndLabelView);
             make.top.equalTo(weakSelf.containerCategoryImageAndLabelView).offset(5).priorityLow();
         }];
         self.categoryLabelAndMoneyLabel.text = @"用餐 4558.00";
-        [self.categoryLabelAndMoneyLabel makeConstraints:^(MASConstraintMaker *make) {
+        [self.categoryLabelAndMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(weakSelf.containerCategoryImageAndLabelView).priorityLow();
             make.bottom.equalTo(weakSelf.containerCategoryImageAndLabelView).offset(-5);
         }];
         
         self.timePointView.backgroundColor = LineColor;
-        [self.timePointView makeConstraints:^(MASConstraintMaker *make) {
-            make.size.equalTo(CGSizeMake(kDetailViewTimePointWidth, kDetailViewTimePointWidth));
+        [self.timePointView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(kDetailViewTimePointWidth, kDetailViewTimePointWidth));
             make.centerX.equalTo(weakSelf.contentView);
-            make.centerY.equalTo(weakSelf.containerCategoryImageAndLabelView.top).offset(-15).priorityLow();
+            make.centerY.equalTo(weakSelf.containerCategoryImageAndLabelView.mas_top).offset(-15).priorityLow();
         }];
         
         
         self.timeLabel.text = @"31日";
-        [self.timeLabel makeConstraints:^(MASConstraintMaker *make) {
+        [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(weakSelf.timePointView).priorityLow();
-            make.right.equalTo(weakSelf.timePointView.left).offset(-10);
+            make.right.equalTo(weakSelf.timePointView.mas_left).offset(-10);
         }];
         
-        [self.logoImageView makeConstraints:^(MASConstraintMaker *make) {
-            make.size.equalTo(CGSizeMake(88, 16));
+        [self.logoImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(88, 16));
             make.left.equalTo(weakSelf.contentView).offset(10);
             make.bottom.equalTo(weakSelf.contentView).offset(-10);
         }];
@@ -219,15 +219,15 @@
 /** 修改时间点和类别图片&备注容器view的布局->顶部 */
 - (void)updateTimePointAndContainerViewConstraints {
     WEAKSELF
-    [self.timePointView remakeConstraints:^(MASConstraintMaker *make) {
-        make.size.equalTo(CGSizeMake(kDetailViewTimePointWidth, kDetailViewTimePointWidth));
+    [self.timePointView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kDetailViewTimePointWidth, kDetailViewTimePointWidth));
         make.centerX.equalTo(weakSelf.contentView);
         make.top.equalTo(weakSelf.contentView).offset(50);
     }];
-    [self.containerCategoryImageAndLabelView remakeConstraints:^(MASConstraintMaker *make) {
-        make.size.equalTo(CGSizeMake(SCREEN_SIZE.width, kDetailViewContainerViewHeight));
+    [self.containerCategoryImageAndLabelView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(SCREEN_SIZE.width, kDetailViewContainerViewHeight));
         make.centerX.equalTo(weakSelf.contentView);
-        make.top.equalTo(weakSelf.timePointView.bottom).offset(15);
+        make.top.equalTo(weakSelf.timePointView.mas_bottom).offset(15);
     }];
 }
 /** 修改备注照片的布局 */
@@ -235,14 +235,14 @@
     WEAKSELF
     /** 替换remarkLabel位置 */
     if (have) {
-        [self.pictureImageView remakeConstraints:^(MASConstraintMaker *make) {
+        [self.pictureImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.equalTo(@250);
             make.bottom.equalTo(weakSelf.contentView).offset(-150);
             make.centerX.equalTo(weakSelf.contentView);
-            make.top.equalTo(weakSelf.containerCategoryImageAndLabelView.bottom);
+            make.top.equalTo(weakSelf.containerCategoryImageAndLabelView.mas_bottom);
         }];
     } else {
-        [self.pictureImageView remakeConstraints:^(MASConstraintMaker *make) {
+        [self.pictureImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.equalTo(@0);
         }];
     }
@@ -251,22 +251,22 @@
 - (void)updateRemarkLabelConstraintsWithBottom:(BOOL)bottom {
     WEAKSELF
     if (bottom) {//底部
-        [self.remarkLabel remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(weakSelf.pictureImageView.bottom);
-            make.size.equalTo(CGSizeMake(SCREEN_SIZE.width - 50, 65));
+        [self.remarkLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(weakSelf.pictureImageView.mas_bottom);
+            make.size.mas_equalTo(CGSizeMake(SCREEN_SIZE.width - 50, 65));
             make.centerX.equalTo(weakSelf.contentView);
         }];
-        [self.containerRemarkLabelView remakeConstraints:^(MASConstraintMaker *make) {
+        [self.containerRemarkLabelView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.equalTo(@0);
         }];
     } else {//中部
-        [self.containerRemarkLabelView remakeConstraints:^(MASConstraintMaker *make) {
+        [self.containerRemarkLabelView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.mas_equalTo(SCREEN_SIZE.width);
-            make.top.equalTo(weakSelf.containerCategoryImageAndLabelView.bottom);
+            make.top.equalTo(weakSelf.containerCategoryImageAndLabelView.mas_bottom);
             make.bottom.equalTo(weakSelf).offset(-100);
         }];
         
-        [self.remarkLabel remakeConstraints:^(MASConstraintMaker *make) {
+        [self.remarkLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.mas_equalTo(SCREEN_SIZE.width);
             make.height.equalTo(@250);
             make.center.equalTo(weakSelf.containerRemarkLabelView);
@@ -276,14 +276,14 @@
 /** 时间点原点 */
 - (void)originTimePointAndContainerViewContraints {
     WEAKSELF
-    [self.containerCategoryImageAndLabelView remakeConstraints:^(MASConstraintMaker *make) {
-        make.size.equalTo(CGSizeMake(SCREEN_SIZE.width, kDetailViewContainerViewHeight));
+    [self.containerCategoryImageAndLabelView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(SCREEN_SIZE.width, kDetailViewContainerViewHeight));
         make.center.equalTo(weakSelf.contentView);
     }];
-    [self.timePointView remakeConstraints:^(MASConstraintMaker *make) {
-        make.size.equalTo(CGSizeMake(kDetailViewTimePointWidth, kDetailViewTimePointWidth));
+    [self.timePointView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kDetailViewTimePointWidth, kDetailViewTimePointWidth));
         make.centerX.equalTo(weakSelf.contentView);
-        make.centerY.equalTo(weakSelf.containerCategoryImageAndLabelView.top).offset(-15).priorityLow();
+        make.centerY.equalTo(weakSelf.containerCategoryImageAndLabelView.mas_top).offset(-15).priorityLow();
     }];
 }
 #pragma mark - setter
@@ -327,7 +327,7 @@
     }else{
         [self originTimePointAndContainerViewContraints];
         [self updatePictureImageViewConstraintsWithHave:NO];
-        [self.containerRemarkLabelView remakeConstraints:^(MASConstraintMaker *make) {
+        [self.containerRemarkLabelView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.equalTo(@0);
         }];
     }

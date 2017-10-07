@@ -21,6 +21,7 @@
 
 #include "index_set.hpp"
 
+#include <memory>
 #include <tuple>
 #include <vector>
 
@@ -54,7 +55,7 @@ namespace realm {
 //     }
 //
 //     // Override the did_change method to call each registered notification
-//     void did_change(std::vector<ObserverState> const&, std::vector<void*> const&) override
+//     void did_change(std::vector<ObserverState> const&, std::vector<void*> const&, bool) override
 //     {
 //         // Loop oddly so that unregistering a notification from within the
 //         // registered function works
@@ -66,13 +67,22 @@ namespace realm {
 // private:
 //     std::list<std::function<void ()>> m_registered_notifications;
 // };
+class Realm;
+class Schema;
 class BindingContext {
 public:
     virtual ~BindingContext() = default;
 
+    std::weak_ptr<Realm> realm;
+
     // If the user adds a notification handler to the Realm, will it ever
     // actually be called?
     virtual bool can_deliver_notifications() const noexcept { return true; }
+
+    // Called by the Realm when refresh called or a notification arrives which
+    // is triggered through write transaction committed by itself or a different
+    // Realm instance.
+    virtual void before_notify() { }
 
     // Called by the Realm when a write transaction is committed to the file by
     // a different Realm instance (possibly in a different process)
@@ -80,7 +90,7 @@ public:
 
     struct ObserverState;
 
-    // Override this function if you want to recieve detailed information about
+    // Override this function if you want to receive detailed information about
     // external changes to a specific set of objects.
     // This is called before each operation which may advance the read
     // transaction to include
@@ -99,26 +109,34 @@ public:
 
     // Called immediately after the read transaction version is advanced. Unlike
     // will_change(), this is called even if detailed change information was not
-    // requested or if the Realm is not actually in a read transactuib, although
+    // requested or if the Realm is not actually in a read transaction, although
     // both vectors will be empty in that case.
     virtual void did_change(std::vector<ObserverState> const& observers,
-                            std::vector<void*> const& invalidated);
+                            std::vector<void*> const& invalidated,
+                            bool version_changed=true);
+
+    // Called immediately after the corresponding Realm's schema is changed through
+    // update_schema()/set_schema_subset() or the schema is changed by another Realm
+    // instance. The parameter is a schema reference which is the same as the return
+    // value of Realm::schema().
+    virtual void schema_did_change(Schema const&) {}
 
     // Change information for a single field of a row
     struct ColumnInfo {
-        // Did this column change?
-        bool changed = false;
-        // For LinkList columns, what kind of change occurred?
-        // Always None for other column types
+        // The index of this column prior to the changes in the tracked
+        // transaction, or -1 for newly inserted columns.
+        size_t initial_column_index = -1;
+        // What kind of change occurred?
+        // Always Set or None for everything but LinkList columns.
         enum class Kind {
             None,   // No change
-            Set,    // The entries at `indices` were assigned to
+            Set,    // The value or entries at `indices` were assigned to
             Insert, // New values were inserted at each of the indices given
             Remove, // Values were removed at each of the indices given
             SetAll  // The entire LinkList has been replaced with a new set of values
         } kind = Kind::None;
-        // The indices where things happened for Set, Insert and Remove
-        // Not used for None and SetAll
+        // The indices where things happened for Set, Insert and Remove on
+        // LinkList columns. Not used for other types or for None or SetAll.
         IndexSet indices;
     };
 
@@ -152,7 +170,7 @@ public:
 };
 
 inline void BindingContext::will_change(std::vector<ObserverState> const&, std::vector<void*> const&) { }
-inline void BindingContext::did_change(std::vector<ObserverState> const&, std::vector<void*> const&) { }
+inline void BindingContext::did_change(std::vector<ObserverState> const&, std::vector<void*> const&, bool) { }
 } // namespace realm
 
 #endif /* BINDING_CONTEXT_HPP */
