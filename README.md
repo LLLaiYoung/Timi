@@ -1,5 +1,7 @@
 ### 写在最前面:
 
+**<font color=red> 本 APP 仅用作学习（虽然说也没有什么可学习的价值），请不要将此 APP 用于其他途径。</font>**
+
 已经适配iOS11/iPhoneX</br>
 如果在看本文或者demo的时候有不明白的地方可以提[issue](https://github.com/CYBoys/Timi/issues/new)或者简书简信我也可以。</br>
 温馨提示:看文章的时候结合代码一起看,效果会更佳哟。</br>
@@ -95,3 +97,5 @@ TMCategory(类别)，TMAddCategory(新增类别)都是采用plist表的方式先
 
 
 ### 更具体的细节分析请移步[简书](http://www.jianshu.com/p/d3dbf8dba11a)
+
+
